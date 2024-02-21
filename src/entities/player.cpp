@@ -5,6 +5,8 @@
 #include "graphics/mesh.h"
 #include "graphics/renderer.h"
 
+#include "managers/resource_manager.h"
+
 #include <glm/vec3.hpp>
 
 // Consts
@@ -36,13 +38,12 @@ player_t player_create(const glm::vec3& pos)
     .start_pos = pos, 
     .position  = pos, 
     .velocity  = glm::vec3(0.0f),
-    .mesh      = mesh_load(),
+    .mesh      = (mesh_t*)resource_get_mesh("Cube_Mesh"),
   };
 }
 
 void player_destroy(player_t& player)
 {
-  mesh_destroy(player.mesh);
 }
 
 void player_update(player_t& player, f64 dt)

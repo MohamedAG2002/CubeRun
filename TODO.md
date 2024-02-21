@@ -1,2 +1,3 @@
 # TODO
-- Entities
+- Audio/Audio manager 
+- Fonts/text/ui

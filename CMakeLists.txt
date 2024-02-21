@@ -32,6 +32,7 @@ set(PROJ_SOURCES
   
   # Managers
   ${PROJ_SRC_DIR}/managers/scene_manager.cpp
+  ${PROJ_SRC_DIR}/managers/resource_manager.cpp
 
   # Scenes
   ${PROJ_SRC_DIR}/scenes/game_scene.cpp
