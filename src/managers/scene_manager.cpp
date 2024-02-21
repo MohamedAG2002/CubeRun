@@ -5,11 +5,14 @@
 #include "core/defines.h"
 #include "core/event.h"
 
+#include "graphics/camera.h"
+
 // Scene manager struct
 /////////////////////////////////////////////////
 struct scene_manager_t 
 { 
   scene_type_e current_scene;
+  camera_t* active_cam = nullptr; 
 
   game_scene_t* game_scn;
 };
@@ -29,6 +32,7 @@ static void change_scene(const scene_type_e type)
       break;
     case SCENE_GAME:
       game_scene_reset(s_scn_man->game_scn);
+      s_scn_man->active_cam = &s_scn_man->game_scn->cam;
       break;
     case SCENE_OVER:
       break;
@@ -66,9 +70,13 @@ void scene_manager_init()
 
   // Scenes init 
   s_scn_man->game_scn = game_scene_create();
+  
+  // Variables init 
+  s_scn_man->current_scene = SCENE_GAME;
+  s_scn_man->active_cam    = &s_scn_man->game_scn->cam;
 }
 
-void scene_manger_shutdown()
+void scene_manager_shutdown()
 {
   game_scene_shutdown(s_scn_man->game_scn);
 
@@ -105,5 +113,10 @@ void scene_manager_render()
     default:
       break;
   }
+}
+
+const camera_t& scene_manager_get_active_camera()
+{
+  return *s_scn_man->active_cam;
 }
 /////////////////////////////////////////////////

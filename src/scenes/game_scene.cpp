@@ -1,32 +1,48 @@
 #include "scenes/game_scene.h"
 #include "core/defines.h"
 
+#include "graphics/camera.h"
+
+#include "entities/player.h"
+
+#include <glm/vec3.hpp>
+
 // Game scene functions
 /////////////////////////////////////////////////
 game_scene_t* game_scene_create()
 {
   game_scene_t* game = new game_scene_t;
 
+  glm::vec3 target(0.0f, 0.0f, -0.3f);
+  game->cam = camera_create(glm::vec3{0.0f, 0.0f, -3.0f}, &target);
+
+  game->player = player_create(glm::vec3{1.0f, 0.0f, 1.0f});
+
   return game;
 }
 
 void game_scene_shutdown(game_scene_t* game)
 {
+  player_destroy(game->player);
+
   delete game;
 }
 
 void game_scene_update(game_scene_t* game, f64 dt)
 {
+  camera_move(game->cam, 5.0f, dt);
+  camera_update(game->cam);
 
+  player_update(game->player, dt);
 }
 
 void game_scene_render(game_scene_t* game)
 {
-
+  player_render(game->player); 
 }
 
 void game_scene_reset(game_scene_t* game)
 {
-
+  player_reset(game->player); 
 }
 /////////////////////////////////////////////////

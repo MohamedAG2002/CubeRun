@@ -7,7 +7,7 @@
 
 // Camera type
 ////////////////////////////////////////////////////////
-struct camera
+struct camera_t
 {
   f32 yaw, pitch;
 
@@ -21,7 +21,7 @@ struct camera
 
 // Camera 3D functions
 ////////////////////////////////////////////////////////
-camera camera_create(const glm::vec3& pos, glm::vec3* target);
-void camera_update(camera& cam);
-void camera_move(camera& cam, f32 speed, f64 dt);
+camera_t camera_create(const glm::vec3& pos, glm::vec3* target);
+void camera_update(camera_t& cam);
+void camera_move(camera_t& cam, f32 speed, f64 dt);
 ////////////////////////////////////////////////////////

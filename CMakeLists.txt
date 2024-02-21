@@ -35,6 +35,9 @@ set(PROJ_SOURCES
 
   # Scenes
   ${PROJ_SRC_DIR}/scenes/game_scene.cpp
+  
+  # Entities
+  ${PROJ_SRC_DIR}/entities/player.cpp
 )
 
 set(LIBS_SOURCES

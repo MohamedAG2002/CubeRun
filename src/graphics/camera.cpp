@@ -12,9 +12,9 @@
 
 // Camera functions
 ////////////////////////////////////////////////////////
-camera camera_create(const glm::vec3& pos, glm::vec3* target)
+camera_t camera_create(const glm::vec3& pos, glm::vec3* target)
 {
-  camera cam;
+  camera_t cam;
   glm::vec3 look_dir = glm::normalize(pos - *target);
 
   cam.yaw   = 90.0f;
@@ -36,7 +36,7 @@ camera camera_create(const glm::vec3& pos, glm::vec3* target)
   return cam;
 }
 
-void camera_update(camera& cam)
+void camera_update(camera_t& cam)
 {
   // Getting values from the window
   f32 aspect_ratio    = window_get_aspect_ratio();
@@ -56,7 +56,7 @@ void camera_update(camera& cam)
   cam.front       = glm::normalize(cam.direction);
 }
 
-void camera_move(camera& cam, f32 speed, f64 dt)
+void camera_move(camera_t& cam, f32 speed, f64 dt)
 { 
   speed *= dt;
 

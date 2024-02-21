@@ -24,6 +24,7 @@ static renderer_t ren{};
 void renderer_create()
 { 
   glEnable(GL_DEPTH_TEST);
+  glEnable(GL_MULTISAMPLE);
 
   // Shaders init 
   ren.shader = shader_load("assets/shaders/shader.glsl");  
@@ -40,7 +41,7 @@ void renderer_clear(const glm::vec4& color)
   glClearColor(color.r, color.g, color.b, color.a);
 }
 
-void renderer_begin(const camera& cam)
+void renderer_begin(const camera_t& cam)
 {
   shader_bind(ren.shader);
   shader_upload_mat4(ren.shader, "u_view_proj", cam.view_projection);

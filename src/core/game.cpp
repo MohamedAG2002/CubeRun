@@ -5,8 +5,8 @@
 #include "core/input.h"
 
 #include "graphics/renderer.h"
-#include "graphics/mesh.h"
-#include "graphics/camera.h"
+
+#include "managers/scene_manager.h"
 
 #include <glad/gl.h>
 
@@ -15,10 +15,6 @@
 struct game_t 
 {
   f64 last_frame, delta_time;
-  mesh_t* cube_mesh;
-  
-  glm::vec3 target;
-  camera cam;
 };
 
 static game_t game;
@@ -31,17 +27,16 @@ static void update_game()
   // Calculating delta time
   game.delta_time = window_get_time() - game.last_frame;
   game.last_frame = window_get_time();
-
-  camera_move(game.cam, 5.0f, game.delta_time);
-  camera_update(game.cam);
+  
+  scene_manager_update(game.delta_time);
 }
 
 static void render_game()
 {
   renderer_clear(glm::vec4{0.1f, 0.1f, 0.1f, 1.0f});
-  renderer_begin(game.cam);
+  renderer_begin(scene_manager_get_active_camera());
 
-  render_mesh(game.cube_mesh, {1.0f, 0.0f, 0.0f}, {0.3f, 2.0f, 1.0f}, {1.0f, 0.0f, 0.1f, 1.0f});
+  scene_manager_render();
 
   renderer_end();
 }
@@ -51,6 +46,10 @@ static void render_game()
 /////////////////////////////////////////////////////
 b8 game_init(i32 width, i32 height, const char* title)
 {
+  // Variables init 
+  game.last_frame = 0.0f;
+  game.delta_time = 0.0f;
+
   // Window init 
   if(!window_create(width, height, title))
     return false;
@@ -60,21 +59,17 @@ b8 game_init(i32 width, i32 height, const char* title)
 
   // Renderer init 
   renderer_create();
-
-  // Variables init 
-  game.last_frame = 0.0f;
-  game.delta_time = 0.0f;
-  game.cube_mesh  = mesh_load();
-  game.target     = glm::vec3(0.0f, 0.0f, -0.3f);
-  game.cam        = camera_create(glm::vec3{0.0f, 0.0f, -3.0f}, &game.target);
+  
+  // Managers init
+  scene_manager_init();
 
   return true;
 }
 
 void game_shutdown()
 {
-  mesh_destroy(game.cube_mesh);
-
+  scene_manager_shutdown();
+  
   renderer_destroy();
   event_shutdown();
   window_destroy();

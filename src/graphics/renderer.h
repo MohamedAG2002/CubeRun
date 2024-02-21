@@ -11,7 +11,7 @@
 void renderer_create();
 void renderer_destroy();
 void renderer_clear(const glm::vec4& color);
-void renderer_begin(const camera& cam);
+void renderer_begin(const camera_t& cam);
 void renderer_end();
 
 void render_mesh(const mesh_t* mesh, const glm::vec3& position, const glm::vec3& scale, const glm::vec4& color);

@@ -1,12 +1,16 @@
 #pragma once
 
 #include "core/defines.h"
+#include "graphics/camera.h"
+
+#include "entities/player.h"
 
 // Game scene type
 /////////////////////////////////////////////////
 struct game_scene_t
 {
-
+  camera_t cam;
+  player_t player;
 };
 /////////////////////////////////////////////////
 
