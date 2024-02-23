@@ -14,6 +14,14 @@ find_library(glfw glfw REQUIRED)
 
 # Project variables
 ############################################
+if(WIN32)
+  set(PROJ_COMPILER_FLAGS)
+endif(WIN32)
+
+if(UNIX)
+  set(PROJ_COMPILER_FLAGS -ldl -lpthread -lm -latomic)
+endif(UNIX)
+
 set(PROJ_SRC_DIR ${CMAKE_SOURCE_DIR}/src)
 set(PROJ_LIBS_DIR ${CMAKE_SOURCE_DIR}/libs)
 set(PROJ_SOURCES 
@@ -33,6 +41,7 @@ set(PROJ_SOURCES
   # Managers
   ${PROJ_SRC_DIR}/managers/scene_manager.cpp
   ${PROJ_SRC_DIR}/managers/resource_manager.cpp
+  ${PROJ_SRC_DIR}/managers/audio_manager.cpp
 
   # Scenes
   ${PROJ_SRC_DIR}/scenes/game_scene.cpp
@@ -43,6 +52,7 @@ set(PROJ_SOURCES
 
 set(LIBS_SOURCES
   ${PROJ_LIBS_DIR}/src/glad/gl.c
+  ${PROJ_LIBS_DIR}/src/miniaudio/miniaudio.cpp
 )
 ############################################
 
@@ -51,7 +61,7 @@ set(LIBS_SOURCES
 add_executable(${PROJECT_NAME} ${PROJ_SOURCES} ${LIBS_SOURCES})
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE GLFW_INCLUDE_NONE)
-target_compile_options(${PROJECT_NAME} PRIVATE -lm)
+target_compile_options(${PROJECT_NAME} PRIVATE ${PROJ_COMPILER_FLAGS})
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
 ############################################
 

@@ -8,6 +8,7 @@
 
 #include "managers/scene_manager.h"
 #include "managers/resource_manager.h"
+#include "managers/audio_manager.h"
 
 #include <glad/gl.h>
 
@@ -62,6 +63,7 @@ b8 game_init(i32 width, i32 height, const char* title)
   renderer_create();
   
   // Managers init
+  audio_manager_init();
   resource_manager_init();
   scene_manager_init();
 
@@ -72,6 +74,7 @@ void game_shutdown()
 {
   scene_manager_shutdown();
   resource_manager_shutdown();
+  audio_manager_shutdown();
   
   renderer_destroy();
   event_shutdown();

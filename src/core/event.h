@@ -5,6 +5,8 @@
 
 #include <glm/vec2.hpp>
 
+#include <string>
+
 // Event type enum
 ////////////////////////////////////////////////
 enum event_type_e 
@@ -21,6 +23,10 @@ enum event_type_e
   EVENT_GAME_CLOSED = 0x07,
 
   EVENT_SCENE_CHANGED = 0x08,
+
+  EVENT_AUDIO_PLAYED  = 0x09,
+  EVENT_AUDIO_STOPPED = 0x10,
+  EVENT_AUDIO_PAUSED  = 0x11,
 };
 ////////////////////////////////////////////////
 
@@ -34,6 +40,8 @@ struct event_desc_t
   u32 button_pressed, button_released;
   
   glm::vec2 mouse_pos, window_size; 
+
+  std::string sound_id;
 };
 ////////////////////////////////////////////////
 

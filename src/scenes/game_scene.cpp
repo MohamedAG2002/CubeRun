@@ -1,8 +1,8 @@
 #include "scenes/game_scene.h"
 #include "core/defines.h"
-
+#include "core/event.h"
+#include "core/input.h"
 #include "graphics/camera.h"
-
 #include "entities/player.h"
 
 #include <glm/vec3.hpp>
@@ -34,6 +34,9 @@ void game_scene_update(game_scene_t* game, f64 dt)
   camera_update(game->cam);
 
   player_update(game->player, dt);
+
+  if(input_key_pressed(KEY_SPACE))
+    event_dispatch(EVENT_AUDIO_PLAYED, event_desc_t{.sound_id = "Player_Death"});
 }
 
 void game_scene_render(game_scene_t* game)
