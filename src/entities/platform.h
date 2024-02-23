@@ -15,6 +15,7 @@
 struct platform_t 
 {
   glm::vec3 start_pos, scale;
+  glm::vec3 random_pos[3];
   glm::vec3 positions[MAX_PLATFORMS];
   glm::vec3 velocities[MAX_PLATFORMS];
   

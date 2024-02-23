@@ -49,6 +49,9 @@ set(PROJ_SOURCES
   # Entities
   ${PROJ_SRC_DIR}/entities/player.cpp
   ${PROJ_SRC_DIR}/entities/platform.cpp
+
+  # Utils
+  ${PROJ_SRC_DIR}/utils/utils.cpp
 )
 
 set(LIBS_SOURCES

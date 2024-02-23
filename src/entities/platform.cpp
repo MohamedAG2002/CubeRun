@@ -3,6 +3,7 @@
 #include "core/input.h"
 #include "graphics/renderer.h"
 #include "managers/resource_manager.h"
+#include "utils/utils.h"
 
 #include <glm/vec3.hpp>
 
@@ -23,7 +24,7 @@ static void spawn_platform(platform_t* plat)
       continue;
 
     // Spawn the platform 
-    plat->positions[i] = plat->start_pos;
+    plat->positions[i] = plat->random_pos[get_random_int(0, 2)];
     plat->velocities[i] = glm::vec3(0.0f, 0.0f, PLATFORM_SPEED);
     plat->active_flags[i] = true; 
     break;
@@ -39,6 +40,10 @@ platform_t* platforms_create(const glm::vec3& pos)
   plat->start_pos = pos; 
   plat->scale = glm::vec3(2.7f, 0.1f, 5.8f);
   plat->spawn_timer = 0.0f;
+
+  plat->random_pos[0] = glm::vec3(plat->start_pos.x - 3.0f, plat->start_pos.y, plat->start_pos.z);
+  plat->random_pos[1] = plat->start_pos;
+  plat->random_pos[2] = glm::vec3(plat->start_pos.x + 3.0f, plat->start_pos.y, plat->start_pos.z);
 
   for(u32 i = 0; i < MAX_PLATFORMS; i++)
   {
