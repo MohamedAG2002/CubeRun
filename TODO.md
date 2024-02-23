@@ -1,3 +1,3 @@
 # TODO
-- Audio/Audio manager 
-- Fonts/text/ui
+- Platforms
+- Player movement

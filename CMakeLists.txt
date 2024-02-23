@@ -48,6 +48,7 @@ set(PROJ_SOURCES
   
   # Entities
   ${PROJ_SRC_DIR}/entities/player.cpp
+  ${PROJ_SRC_DIR}/entities/platform.cpp
 )
 
 set(LIBS_SOURCES

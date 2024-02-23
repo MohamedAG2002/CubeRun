@@ -20,9 +20,9 @@ const f32 FALL_DEATH_DIST = 100.0f;
 ////////////////////////////////////////////////////
 static void move_player(player_t& player)
 {
-  if(input_key_down(KEY_LEFT))
+  if(input_key_down(KEY_UP))
     player.velocity.z = -JUMP_SPEED; 
-  else if(input_key_down(KEY_RIGHT))
+  else if(input_key_down(KEY_DOWN))
     player.velocity.z = JUMP_SPEED; 
   else 
     player.velocity.z = 0.0f; 
@@ -38,12 +38,8 @@ player_t player_create(const glm::vec3& pos)
     .start_pos = pos, 
     .position  = pos, 
     .velocity  = glm::vec3(0.0f),
-    .mesh      = (mesh_t*)resource_get_mesh("Cube_Mesh"),
+    .mesh      = resource_get_mesh("Cube_Mesh"),
   };
-}
-
-void player_destroy(player_t& player)
-{
 }
 
 void player_update(player_t& player, f64 dt)

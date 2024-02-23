@@ -4,6 +4,7 @@
 #include "graphics/camera.h"
 
 #include "entities/player.h"
+#include "entities/platform.h"
 
 // Game scene type
 /////////////////////////////////////////////////
@@ -11,6 +12,7 @@ struct game_scene_t
 {
   camera_t cam;
   player_t player;
+  platform_t* platforms;
 };
 /////////////////////////////////////////////////
 

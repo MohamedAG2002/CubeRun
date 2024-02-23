@@ -20,7 +20,7 @@ struct window_t
 // Globals
 ///////////////////////////////////////////////////////
 static window_t window;
-static glm::vec2 last_mouse_pos(1.0f);
+static glm::vec2 last_mouse_pos(-89.0f, 0.0f);
 const float SENSITIVITY = 0.1f;
 ///////////////////////////////////////////////////////
 
@@ -129,6 +129,10 @@ b8 window_create(i32 width, i32 height, const char* title)
   window.size       = glm::vec2(width, height);
   window.mouse_pos  = last_mouse_pos; 
 
+  // Disable the cursor 
+  glfwSetInputMode(window.handle, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+  glfwSetCursorPos(window.handle, window.mouse_pos.x, window.mouse_pos.y);
+
   // Init GLAD 
   if(!gladLoadGL(glfwGetProcAddress))
   {
@@ -137,9 +141,6 @@ b8 window_create(i32 width, i32 height, const char* title)
   }
   glViewport(0, 0, width, height);
   glfwMakeContextCurrent(window.handle);
-
-  // Disable the cursor 
-  glfwSetInputMode(window.handle, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
   return true;
 }

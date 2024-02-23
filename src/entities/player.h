@@ -20,7 +20,6 @@ struct player_t
 // Player functions
 ////////////////////////////////////////////////////
 player_t player_create(const glm::vec3& pos);
-void player_destroy(player_t& player);
 void player_update(player_t& player, f64 dt);
 void player_render(const player_t& player);
 void player_reset(player_t& player);

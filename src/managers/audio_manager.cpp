@@ -9,10 +9,10 @@
 ///////////////////////////////////////////////////////
 struct audio_manager_t 
 {
+  ma_engine* engine;
 };
 
 static audio_manager_t s_audio_man;
-ma_engine* engine;
 ///////////////////////////////////////////////////////
 
 // Callbacks
@@ -23,7 +23,6 @@ b8 audio_callback(const event_type_e type, const event_desc_t& desc)
   {
     ma_sound* sound = &resource_get_audio(desc.sound_id);
     ma_sound_start(sound);
-    //ma_engine_play_sound(&s_audio_man.engine, "assets/audio/player_death.wav", NULL);
 
     return true; 
   }
@@ -57,19 +56,19 @@ void audio_manager_init()
   event_listen(EVENT_AUDIO_PAUSED, audio_callback); 
 
   // Miniaudio init
-  engine = new ma_engine;
-  ma_result result = ma_engine_init(NULL, engine);
+  s_audio_man.engine = new ma_engine;
+  ma_result result = ma_engine_init(NULL, s_audio_man.engine);
   if(result != MA_SUCCESS)
     printf("ERROR: Failed to create miniaudio\n");
 }
 
 void audio_manager_shutdown()
 {
-  ma_engine_uninit(engine);
+  ma_engine_uninit(s_audio_man.engine);
 }
 
 ma_engine* audio_manager_get_engine()
 {
-  return engine;
+  return s_audio_man.engine;
 }
 ///////////////////////////////////////////////////////

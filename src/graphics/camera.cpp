@@ -17,7 +17,7 @@ camera_t camera_create(const glm::vec3& pos, glm::vec3* target)
   camera_t cam;
   glm::vec3 look_dir = glm::normalize(pos - *target);
 
-  cam.yaw   = 90.0f;
+  cam.yaw   = -90.0f;
   cam.pitch = 0.0f;
 
   cam.position = pos;

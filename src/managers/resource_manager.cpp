@@ -24,6 +24,7 @@ static resource_manager* rsrc_man;
 static void load_meshes()
 {
   rsrc_man->meshes["Cube_Mesh"] = mesh_load();
+  rsrc_man->meshes["Platform_Mesh"] = mesh_load();
 }
 
 static void load_fonts()
@@ -67,7 +68,7 @@ void resource_manager_shutdown()
   delete rsrc_man;
 }
 
-const mesh_t* resource_get_mesh(const std::string& id)
+mesh_t* resource_get_mesh(const std::string& id)
 {
   if(rsrc_man->meshes.find(id) == rsrc_man->meshes.end())
   {
