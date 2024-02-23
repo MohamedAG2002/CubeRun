@@ -11,21 +11,27 @@
 
 // Consts
 ////////////////////////////////////////////////////
-const f32 JUMP_SPEED      = 50.0f;
-const f32 GRAVITY         = 98.1f;
-const f32 FALL_DEATH_DIST = 100.0f; 
+#define JUMP_SPEED      8.0f
+#define MOVE_SPEED      8.0f
+#define GRAVITY         0.3f
+#define FALL_DEATH_DIST 100.0f 
 ////////////////////////////////////////////////////
 
 // Private functions
 ////////////////////////////////////////////////////
-static void move_player(player_t& player)
+static void move_player(player_t& player, f64 dt)
 {
-  if(input_key_down(KEY_UP))
-    player.velocity.z = -JUMP_SPEED; 
-  else if(input_key_down(KEY_DOWN))
-    player.velocity.z = JUMP_SPEED; 
+  if(input_key_down(KEY_LEFT))
+    player.velocity.x = -MOVE_SPEED; 
+  else if(input_key_down(KEY_RIGHT))
+    player.velocity.x = MOVE_SPEED; 
   else 
-    player.velocity.z = 0.0f; 
+    player.velocity.x = 0.0f;
+
+  if(input_key_pressed(KEY_SPACE))
+    player.velocity.y = JUMP_SPEED;
+  else 
+    player.velocity.y -= GRAVITY;
 }
 ////////////////////////////////////////////////////
 
@@ -50,9 +56,14 @@ void player_update(player_t& player, f64 dt)
     player.is_alive = false;
     return;
   }
-  
-  move_player(player);
+ 
+  // Movements 
   player.position += player.velocity * (f32)dt;
+  move_player(player, dt);
+
+  // @NOTE: VERY temporary. Like, as soon as collisions are implemented, remove this.
+  if(player.position.y < 0.5f)
+    player.position.y = 0.5f;
 }
 
 void player_render(const player_t& player)
