@@ -182,6 +182,10 @@ const f64 window_get_time() {
   return glfwGetTime();
 }
 
+GLFWwindow* window_get_handle() {
+  return window.handle;
+}
+
 void window_set_close(const bool close) {
   glfwSetWindowShouldClose(window.handle, close);
 }

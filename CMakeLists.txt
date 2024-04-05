@@ -24,6 +24,9 @@ set(CR_SOURCES
   ${CR_SRC_DIR}/engine/core/event.cpp
   ${CR_SRC_DIR}/engine/core/input.cpp
   ${CR_SRC_DIR}/engine/core/game.cpp
+
+  # engine/editor
+  ${CR_SRC_DIR}/editor/editor.cpp
 )
 ############################################################
 
@@ -31,6 +34,15 @@ set(CR_SOURCES
 ############################################################
 set(LIBS_SOURCE 
   ${CR_LIBS_DIR}/glad/gl.c
+
+  ${CR_LIBS_DIR}/ImGui/imgui.cpp
+  ${CR_LIBS_DIR}/ImGui/imgui_demo.cpp
+  ${CR_LIBS_DIR}/ImGui/imgui_draw.cpp
+  ${CR_LIBS_DIR}/ImGui/imgui_tables.cpp
+  ${CR_LIBS_DIR}/ImGui/imgui_widgets.cpp
+  
+  ${CR_LIBS_DIR}/ImGui/backends/imgui_impl_opengl3.cpp
+  ${CR_LIBS_DIR}/ImGui/backends/imgui_impl_glfw.cpp
 )
 ############################################################
 

@@ -3,6 +3,7 @@
 #include "engine/core/clock.h"
 #include "engine/core/event.h"
 #include "engine/core/input.h"
+#include "editor/editor.h"
 
 #include <glad/gl.h>
 
@@ -15,20 +16,14 @@ static void update(Game& game) {
     event_dispatch(EVENT_GAME_QUIT, EventDesc{});
     window_set_close(true);
   }
-
-  static bool show = true;
-  if(input_key_pressed(KEY_F5)) {
-    input_cursor_show(!show);
-  }
-  
-  glm::vec2 mouse_pos = input_mouse_pos();
-  printf("%.03f, %.03f\n", mouse_pos.x, mouse_pos.y);
 }
 
 static void render(Game& game) {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glClearColor(0.0f, 1.0f, 1.0f, 1.0f);
+  editor_begin();
 
+  editor_end();
   window_swap_buffers(); 
 }
 /////////////////////////////////////////////////////////////////////////////////
@@ -43,12 +38,14 @@ bool game_init(Game& game) {
     return false;
   }
   input_init();
+  editor_init();
   ///////////////////////////////////////////////// 
   
   return true;
 }
 
 void game_shutdown(Game& game) {
+  editor_shutdown();
   window_destroy();
 }
 
