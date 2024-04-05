@@ -7,3 +7,6 @@
 [submodule "libs/GLFW"]
 	path = libs/GLFW
 	url = git@github.com:glfw/glfw.git
+[submodule "libs/glm"]
+	path = libs/glm
+	url = git@github.com:g-truc/glm.git

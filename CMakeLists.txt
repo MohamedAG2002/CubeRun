@@ -11,13 +11,19 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # Sub-dirs
 ############################################################
 add_subdirectory(libs/GLFW)
+add_subdirectory(libs/glm)
 ############################################################
 
 # Source
 ############################################################
 set(CR_SOURCES 
-  # Core
+  # engine/core
   ${CR_SRC_DIR}/main.cpp
+  ${CR_SRC_DIR}/engine/core/window.cpp
+  ${CR_SRC_DIR}/engine/core/clock.cpp
+  ${CR_SRC_DIR}/engine/core/event.cpp
+  ${CR_SRC_DIR}/engine/core/input.cpp
+  ${CR_SRC_DIR}/engine/core/game.cpp
 )
 ############################################################
 
@@ -41,5 +47,5 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${CR_LIBS_DIR}/)
 
 file(COPY assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
-target_link_libraries(${PROJECT_NAME} PUBLIC glfw)
+target_link_libraries(${PROJECT_NAME} PUBLIC glfw glm)
 ############################################################
