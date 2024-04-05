@@ -1,0 +1,9 @@
+[submodule "libs/sdl"]
+	path = libs/sdl
+	url = git@github.com:libsdl-org/SDL.git
+[submodule "libs/SDL"]
+	path = libs/SDL
+	url = git@github.com:libsdl-org/SDL.git
+[submodule "libs/GLFW"]
+	path = libs/GLFW
+	url = git@github.com:glfw/glfw.git
