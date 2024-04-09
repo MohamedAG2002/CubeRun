@@ -4,8 +4,7 @@
 #include "engine/core/event.h"
 #include "engine/core/input.h"
 #include "editor/editor.h"
-
-#include <glad/gl.h>
+#include "engine/graphics/renderer.h"
 
 #include <cstdio>
 
@@ -19,12 +18,11 @@ static void update(Game& game) {
 }
 
 static void render(Game& game) {
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glClearColor(0.0f, 1.0f, 1.0f, 1.0f);
+  renderer_begin(); 
   editor_begin();
 
   editor_end();
-  window_swap_buffers(); 
+  renderer_end();
 }
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -37,14 +35,21 @@ bool game_init(Game& game) {
     printf("[ERROR]: Window failed to be created\n");
     return false;
   }
+
   input_init();
   editor_init();
+
+  if(!renderer_create()) {
+    printf("[ERROR]: Renderer failed to be created\n");
+    return false;
+  }
   ///////////////////////////////////////////////// 
   
   return true;
 }
 
 void game_shutdown(Game& game) {
+  renderer_destroy();
   editor_shutdown();
   window_destroy();
 }

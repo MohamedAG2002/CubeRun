@@ -118,14 +118,6 @@ static bool create_handle(i32 width, i32 height, const char* title) {
     glfwMakeContextCurrent(window.handle);
   }
 
-  if(!gladLoadGL(glfwGetProcAddress)) {
-    printf("[ERROR]: Failed to initialize GLAD\n");
-    return false;
-  }
-  else {
-    glfwMakeContextCurrent(window.handle);
-  }
-
   return true;
 }
 
@@ -150,7 +142,7 @@ const bool window_create(const i32 width, const i32 height, const char* title) {
 
   // Window init
   ////////////////////////////////////////// 
-  window.size           = glm::vec2(width, height);
+  window.size = glm::vec2(width, height);
   event_listen(EVENT_CURSOR_CHANGED, cursor_mode_change_callback); 
   ////////////////////////////////////////// 
 
@@ -184,6 +176,10 @@ const f64 window_get_time() {
 
 GLFWwindow* window_get_handle() {
   return window.handle;
+}
+
+void window_set_current_context() {
+  glfwMakeContextCurrent(window.handle);
 }
 
 void window_set_close(const bool close) {

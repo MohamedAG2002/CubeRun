@@ -18,5 +18,6 @@ const glm::vec2 window_get_size();
 const f64 window_get_time();
 GLFWwindow* window_get_handle(); 
 
+void window_set_current_context();
 void window_set_close(const bool close);
 /////////////////////////////////////////////////////////////////////////////////

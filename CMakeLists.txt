@@ -27,6 +27,10 @@ set(CR_SOURCES
 
   # engine/editor
   ${CR_SRC_DIR}/editor/editor.cpp
+  
+  # engine/graphics
+  ${CR_SRC_DIR}/engine/graphics/renderer.cpp
+  ${CR_SRC_DIR}/engine/graphics/shader.cpp
 )
 ############################################################
 
