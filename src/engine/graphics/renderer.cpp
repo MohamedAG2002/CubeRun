@@ -95,16 +95,14 @@ void renderer_begin(const Camera& cam) {
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
   shader_bind(renderer.basic_shader);
-
-  glBindVertexArray(renderer.vao);
-  glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
 void renderer_end() {
   window_swap_buffers();
 }
 
-void render_mesh(const Mesh* mesh) {
-
+void render_mesh(const Mesh* mesh, const glm::vec3& pos, const glm::vec4& color) {
+  glBindVertexArray(mesh->vao);
+  glDrawElements(GL_TRIANGLES, mesh->indices.size(), GL_UNSIGNED_INT, 0);
 }
 /////////////////////////////////////////////////////////////////////////////////

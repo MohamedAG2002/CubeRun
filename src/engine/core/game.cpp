@@ -4,6 +4,7 @@
 #include "engine/core/event.h"
 #include "engine/core/input.h"
 #include "editor/editor.h"
+#include "engine/graphics/mesh.h"
 #include "engine/graphics/renderer.h"
 
 #include <cstdio>
@@ -20,6 +21,8 @@ static void update(Game& game) {
 static void render(Game& game) {
   renderer_begin(); 
   editor_begin();
+
+  render_mesh(game.mesh, glm::vec3(0.0f), glm::vec4(1.0f));
 
   editor_end();
   renderer_end();
@@ -44,7 +47,9 @@ bool game_init(Game& game) {
     return false;
   }
   ///////////////////////////////////////////////// 
-  
+ 
+  game.mesh = mesh_create();
+
   return true;
 }
 
