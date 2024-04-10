@@ -5,17 +5,19 @@
 #include "engine/graphics/shader.h"
 
 #include <glad/gl.h>
-#include <glm/glm.hpp>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/ext/matrix_transform.hpp>
 
 #include <cstdio>
 
 // Renderer
 /////////////////////////////////////////////////////////////////////////////////
 struct Renderer {
-  Shader* basic_shader; 
-
-  u32 vao, vbo, ebo;
+  Shader* basic_shader;
+  Shader* camera_shader;
+  Shader* current_shader;
 };
 
 static Renderer renderer;
@@ -42,36 +44,6 @@ bool gl_init() {
 
   return true;
 }
-
-static void setup_buffers() {
-  float vertices[] = {
-    -0.5f, -0.5f, 0.0f, 
-     0.5f, -0.5f, 0.0f, 
-     0.5f,  0.5f, 0.0f, 
-    -0.5f,  0.5f, 0.0f, 
-  };
-
-  u32 indices[] = {
-    0, 1, 2, 
-    2, 3, 0,
-  };
-
-  glGenVertexArrays(1, &renderer.vao);
-  glBindVertexArray(renderer.vao);
-
-  glGenBuffers(1, &renderer.vbo);
-  glBindBuffer(GL_ARRAY_BUFFER, renderer.vbo);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-  
-  glGenBuffers(1, &renderer.ebo);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, renderer.ebo);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-  glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0, 3, GL_FLOAT, false, sizeof(float) * 3, 0);
-
-  glBindVertexArray(0);
-}
 /////////////////////////////////////////////////////////////////////////////////
 
 // Public functions
@@ -81,20 +53,21 @@ const bool renderer_create() {
     return false;
   }
 
-  setup_buffers();
-  renderer.basic_shader = shader_load("assets/shaders/basic.glsl");
+  renderer.basic_shader   = shader_load("assets/shaders/basic.glsl");
+  renderer.camera_shader  = shader_load("assets/shaders/camera.glsl");
+  renderer.current_shader = renderer.camera_shader;
   return true;
 }
 
 void renderer_destroy() {
-  shader_unload(renderer.basic_shader);
 }
 
 void renderer_begin(const Camera& cam) {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-  shader_bind(renderer.basic_shader);
+  shader_bind(renderer.current_shader);
+  shader_upload_mat4(renderer.current_shader, "u_view_projection", cam.view_projection);
 }
 
 void renderer_end() {
@@ -102,6 +75,12 @@ void renderer_end() {
 }
 
 void render_mesh(const Mesh* mesh, const glm::vec3& pos, const glm::vec4& color) {
+  glm::mat4 model = glm::mat4(1.0f); 
+  model           = glm::translate(model, pos) * 
+                    glm::rotate(model, 45.0f, glm::vec3(1.0f)) * 
+                    glm::scale(model, glm::vec3(1.0f));
+  shader_upload_mat4(renderer.current_shader, "u_model", model);
+
   glBindVertexArray(mesh->vao);
   glDrawElements(GL_TRIANGLES, mesh->indices.size(), GL_UNSIGNED_INT, 0);
 }

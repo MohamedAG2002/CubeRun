@@ -32,6 +32,7 @@ set(CR_SOURCES
   ${CR_SRC_DIR}/engine/graphics/renderer.cpp
   ${CR_SRC_DIR}/engine/graphics/shader.cpp
   ${CR_SRC_DIR}/engine/graphics/mesh.cpp
+  ${CR_SRC_DIR}/engine/graphics/camera.cpp
 )
 ############################################################
 

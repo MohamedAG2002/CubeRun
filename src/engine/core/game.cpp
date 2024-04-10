@@ -4,8 +4,9 @@
 #include "engine/core/event.h"
 #include "engine/core/input.h"
 #include "editor/editor.h"
-#include "engine/graphics/mesh.h"
 #include "engine/graphics/renderer.h"
+#include "engine/graphics/mesh.h"
+#include "engine/graphics/camera.h"
 
 #include <cstdio>
 
@@ -16,15 +17,20 @@ static void update(Game& game) {
     event_dispatch(EVENT_GAME_QUIT, EventDesc{});
     window_set_close(true);
   }
+
+  camera_update(&game.cam);
+  camera_move(&game.cam);
 }
 
 static void render(Game& game) {
-  renderer_begin(); 
-  editor_begin();
+  renderer_begin(game.cam); 
+  //editor_begin();
 
-  render_mesh(game.mesh, glm::vec3(0.0f), glm::vec4(1.0f));
+  for(int i = 0; i < 10; i++) {
+    render_mesh(game.mesh[i], glm::vec3(i * 10.0f, 0.0f, -5.0f), glm::vec4(1.0f));
+  }
 
-  editor_end();
+  //editor_end();
   renderer_end();
 }
 /////////////////////////////////////////////////////////////////////////////////
@@ -39,6 +45,7 @@ bool game_init(Game& game) {
     return false;
   }
 
+  input_cursor_show(false);
   input_init();
   editor_init();
 
@@ -47,8 +54,11 @@ bool game_init(Game& game) {
     return false;
   }
   ///////////////////////////////////////////////// 
- 
-  game.mesh = mesh_create();
+
+  for(int i = 0; i < 10; i++) {
+    game.mesh[i] = mesh_create();
+  }
+  game.cam  = camera_create(glm::vec3(-10.0f, 0.0f, -10.0f), glm::vec3(0.0f, 0.0f, -3.0f));
 
   return true;
 }

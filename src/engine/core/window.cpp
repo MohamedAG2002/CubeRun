@@ -143,7 +143,7 @@ const bool window_create(const i32 width, const i32 height, const char* title) {
   // Window init
   ////////////////////////////////////////// 
   window.size = glm::vec2(width, height);
-  event_listen(EVENT_CURSOR_CHANGED, cursor_mode_change_callback); 
+  event_listen(EVENT_CURSOR_CHANGED, cursor_mode_change_callback);
   ////////////////////////////////////////// 
 
   return true;
@@ -172,6 +172,10 @@ const glm::vec2 window_get_size() {
 
 const f64 window_get_time() {
   return glfwGetTime();
+}
+
+const f32 window_get_aspect_ratio() {
+  return window.size.x / window.size.y;
 }
 
 GLFWwindow* window_get_handle() {
