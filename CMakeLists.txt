@@ -33,6 +33,9 @@ set(CR_SOURCES
   ${CR_SRC_DIR}/engine/graphics/shader.cpp
   ${CR_SRC_DIR}/engine/graphics/mesh.cpp
   ${CR_SRC_DIR}/engine/graphics/camera.cpp
+  
+  # engine/graphics
+  ${CR_SRC_DIR}/engine/audio/audio_system.cpp
 )
 ############################################################
 
@@ -49,6 +52,8 @@ set(LIBS_SOURCE
   
   ${CR_LIBS_DIR}/ImGui/backends/imgui_impl_opengl3.cpp
   ${CR_LIBS_DIR}/ImGui/backends/imgui_impl_glfw.cpp
+  
+  ${CR_LIBS_DIR}/miniaudio/miniaudio.cpp
 )
 ############################################################
 

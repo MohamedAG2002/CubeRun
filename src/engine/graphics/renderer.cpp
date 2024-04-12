@@ -12,11 +12,19 @@
 
 #include <cstdio>
 
+// ShaderType
+/////////////////////////////////////////////////////////////////////////////////
+enum ShaderType {
+  SHADER_BASIC = 0, 
+  SHADER_CAMERA, 
+  SHADERS_MAX = 2,
+};
+/////////////////////////////////////////////////////////////////////////////////
+
 // Renderer
 /////////////////////////////////////////////////////////////////////////////////
 struct Renderer {
-  Shader* basic_shader;
-  Shader* camera_shader;
+  Shader* shaders[SHADERS_MAX];
   Shader* current_shader;
 };
 
@@ -53,13 +61,16 @@ const bool renderer_create() {
     return false;
   }
 
-  renderer.basic_shader   = shader_load("assets/shaders/basic.glsl");
-  renderer.camera_shader  = shader_load("assets/shaders/camera.glsl");
-  renderer.current_shader = renderer.camera_shader;
+  renderer.shaders[SHADER_BASIC]  = shader_load("assets/shaders/basic.glsl");
+  renderer.shaders[SHADER_CAMERA] = shader_load("assets/shaders/camera.glsl");
+  renderer.current_shader         = renderer.shaders[SHADER_CAMERA];
   return true;
 }
 
 void renderer_destroy() {
+  for(u32 i = 0; i < SHADERS_MAX; i++) {
+    shader_unload(renderer.shaders[i]);
+  }
 }
 
 void renderer_begin(const Camera& cam) {
@@ -77,9 +88,11 @@ void renderer_end() {
 void render_mesh(const Mesh* mesh, const glm::vec3& pos, const glm::vec4& color) {
   glm::mat4 model = glm::mat4(1.0f); 
   model           = glm::translate(model, pos) * 
-                    glm::rotate(model, 45.0f, glm::vec3(1.0f)) * 
+                    glm::rotate(model, 0.0f, glm::vec3(1.0f)) * 
                     glm::scale(model, glm::vec3(1.0f));
+  
   shader_upload_mat4(renderer.current_shader, "u_model", model);
+  shader_upload_vec4(renderer.current_shader, "u_color", color);
 
   glBindVertexArray(mesh->vao);
   glDrawElements(GL_TRIANGLES, mesh->indices.size(), GL_UNSIGNED_INT, 0);

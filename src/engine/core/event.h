@@ -1,6 +1,8 @@
 #pragma once
 
 #include "engine/defines.h"
+#include "engine/audio/sound_type.h"
+#include "engine/audio/music_type.h"
 
 #include <glm/vec2.hpp>
 
@@ -38,6 +40,10 @@ struct EventDesc {
   i32 button_pressed, button_released;
   bool cursor_shown;
   glm::vec2 mouse_pos;
+
+  // Audio desc 
+  SoundType sound_type; 
+  MusicType music_type;
 };
 /////////////////////////////////////////////////////////////////////////////////
 

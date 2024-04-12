@@ -7,6 +7,7 @@
 #include "engine/graphics/renderer.h"
 #include "engine/graphics/mesh.h"
 #include "engine/graphics/camera.h"
+#include "engine/audio/audio_system.h"
 
 #include <cstdio>
 
@@ -27,7 +28,7 @@ static void render(Game& game) {
   //editor_begin();
 
   for(int i = 0; i < 10; i++) {
-    render_mesh(game.mesh[i], glm::vec3(i * 10.0f, 0.0f, -5.0f), glm::vec4(1.0f));
+    render_mesh(game.mesh[i], glm::vec3(i * 10.0f, 0.0f, -5.0f), glm::vec4(1.0f, 0, 0, 1));
   }
 
   //editor_end();
@@ -40,7 +41,7 @@ static void render(Game& game) {
 bool game_init(Game& game) {
   // Systems init  
   ///////////////////////////////////////////////// 
-  if(!window_create(1280, 720, "Cube Run")) {
+  if(!window_create(800, 600, "Cube Run")) {
     printf("[ERROR]: Window failed to be created\n");
     return false;
   }
@@ -51,6 +52,11 @@ bool game_init(Game& game) {
 
   if(!renderer_create()) {
     printf("[ERROR]: Renderer failed to be created\n");
+    return false;
+  }
+
+  if(!audio_system_init()) {
+    printf("[ERROR]: Audio system failed to be initialized\n");
     return false;
   }
   ///////////////////////////////////////////////// 
@@ -64,6 +70,7 @@ bool game_init(Game& game) {
 }
 
 void game_shutdown(Game& game) {
+  audio_system_shutdown();
   renderer_destroy();
   editor_shutdown();
   window_destroy();

@@ -14,6 +14,9 @@ struct Window {
   GLFWwindow* handle = nullptr;
 
   glm::vec2 size;
+  glm::vec2 mouse_pos, last_mouse_pos;
+
+  bool is_focused;
 }; 
 
 static Window window;
@@ -24,8 +27,21 @@ static Window window;
 // Callbacks
 /////////////////////////////////////////////////////////////////////////////////
 void mouse_callback(GLFWwindow* win, f64 x_pos, f64 y_pos) {
+  // Will happen once when the window is initially focused to prevent sudden 
+  // large mouse movements.
+  if(!window.is_focused) {
+    window.is_focused = true; 
+    window.last_mouse_pos = glm::vec2(x_pos, y_pos);
+  }
+
+  glm::vec2 offset(x_pos - window.last_mouse_pos.x, window.last_mouse_pos.y - y_pos);
+  window.last_mouse_pos = glm::vec2(x_pos, y_pos);
+
+  offset *= SENS; 
+  window.mouse_pos += offset;
+
   EventDesc desc = {
-    .mouse_pos = glm::vec2(x_pos, y_pos),
+    .mouse_pos = window.mouse_pos,
   };
   event_dispatch(EVENT_MOUSE_MOVED, desc);
 }
@@ -143,6 +159,9 @@ const bool window_create(const i32 width, const i32 height, const char* title) {
   // Window init
   ////////////////////////////////////////// 
   window.size = glm::vec2(width, height);
+  window.last_mouse_pos = glm::vec2(0.0f);
+  window.mouse_pos = window.last_mouse_pos; 
+  window.is_focused = false;
   event_listen(EVENT_CURSOR_CHANGED, cursor_mode_change_callback);
   ////////////////////////////////////////// 
 

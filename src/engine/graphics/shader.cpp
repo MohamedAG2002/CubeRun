@@ -22,6 +22,9 @@ static void read_shader(const std::string& path, Shader* shader) {
     return;
   }
 
+  // Get the name of the shader from the path 
+  shader->name = path.substr(path.find_last_of('/') + 1);
+
   ss << file.rdbuf();
   file.close();
 
@@ -50,8 +53,7 @@ static void check_compile_error(const u32 shader_id) {
 
   glGetShaderiv(shader_id, GL_COMPILE_STATUS, &success); 
 
-  if(!success) 
-  {
+  if(!success) {
     glGetShaderInfoLog(shader_id, 512, nullptr, log_info);
     printf("[SHADER-ERROR]: %s\n", log_info);
   }
@@ -63,8 +65,7 @@ static void check_linker_error(const Shader* shader) {
 
   glGetProgramiv(shader->id, GL_COMPILE_STATUS, &success); 
 
-  if(!success) 
-  {
+  if(!success) {
     glGetProgramInfoLog(shader->id, 512, nullptr, log_info);
     printf("[SHADER-ERROR]: %s\n", log_info);
   }
@@ -74,8 +75,9 @@ static unsigned int get_uniform_location(const Shader* shader, const std::string
   u32 uni_loc = 0;
 
   uni_loc = glGetUniformLocation(shader->id, name.c_str());
-  if(uni_loc == -1)
-    printf("[SHADER-ERROR]: Could not find variable \'%s\' in the shader\n", name.c_str());
+  if(uni_loc == -1) {
+    printf("[SHADER-ERROR]: Could not find variable \'%s\' in shader \'%s\'\n", name.c_str(), shader->name.c_str());
+  }
 
   return uni_loc;
 }

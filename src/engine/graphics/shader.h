@@ -9,6 +9,7 @@
 // Shader
 /////////////////////////////////////////////////////////////////////////////////
 struct Shader {
+  std::string name;
   std::string vert_src, frag_src; 
 
   u32 id, vert_id, frag_id;
