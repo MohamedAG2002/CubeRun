@@ -133,6 +133,11 @@ void shader_upload_int(Shader* shader, const std::string& name, const i32 value)
   glUniform1i(get_uniform_location(shader, name), value);
 }
 
+void shader_upload_int_index(Shader* shader, const std::string& name, const u32 index, const i32 value) {
+  std::string index_name = std::string(name + "[" + std::to_string(index) + "]");
+  glUniform1i(get_uniform_location(shader, index_name), value);
+}
+
 void shader_upload_float(Shader* shader, const std::string& name, const f32 value) {
   glUniform1f(get_uniform_location(shader, name), value);
 }
@@ -147,5 +152,20 @@ void shader_upload_vec4(Shader* shader, const std::string& name, const glm::vec4
 
 void shader_upload_vec3(Shader* shader, const std::string& name, const glm::vec3& value) {
   glUniform3f(get_uniform_location(shader, name), value.x, value.y, value.z);
+}
+
+void shader_upload_mat4_index(Shader* shader, const std::string& name, const i32 index, const glm::mat4& value) {
+  std::string index_name = std::string(name + "[" + std::to_string(index) + "]");
+  glUniformMatrix4fv(get_uniform_location(shader, index_name), 1, GL_FALSE, glm::value_ptr(value));
+}
+
+void shader_upload_vec4_index(Shader* shader, const std::string& name, const i32 index, const glm::vec4& value) {
+  std::string index_name = std::string(name + "[" + std::to_string(index) + "]");
+  glUniform4f(get_uniform_location(shader, index_name), value.x, value.y, value.z, value.w);
+}
+
+void shader_upload_vec3_index(Shader* shader, const std::string& name, const i32 index, const glm::vec3& value) {
+  std::string index_name = std::string(name + "[" + std::to_string(index) + "]");
+  glUniform3f(get_uniform_location(shader, index_name), value.x, value.y, value.z);
 }
 /////////////////////////////////////////////////////////////////////////////////

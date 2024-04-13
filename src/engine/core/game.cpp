@@ -31,6 +31,9 @@ static void render(Game& game) {
     render_mesh(game.mesh[i], glm::vec3(i * 10.0f, 0.0f, -5.0f), glm::vec4(1.0f, 0, 0, 1));
   }
 
+  glm::vec2 text_pos = glm::vec2(100.0f, 100.0f);
+  render_text(renderer_default_font(), "CUBE RUN", 0.0f, text_pos, glm::vec4(1.0f));
+
   //editor_end();
   renderer_end();
 }

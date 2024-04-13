@@ -12,6 +12,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 ############################################################
 add_subdirectory(libs/GLFW)
 add_subdirectory(libs/glm)
+add_subdirectory(libs/freetype)
 ############################################################
 
 # Source
@@ -33,8 +34,9 @@ set(CR_SOURCES
   ${CR_SRC_DIR}/engine/graphics/shader.cpp
   ${CR_SRC_DIR}/engine/graphics/mesh.cpp
   ${CR_SRC_DIR}/engine/graphics/camera.cpp
+  ${CR_SRC_DIR}/engine/graphics/font.cpp
   
-  # engine/graphics
+  # engine/audio
   ${CR_SRC_DIR}/engine/audio/audio_system.cpp
 )
 ############################################################
@@ -70,5 +72,5 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${CR_LIBS_DIR}/)
 
 file(COPY assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
-target_link_libraries(${PROJECT_NAME} PUBLIC glfw glm)
+target_link_libraries(${PROJECT_NAME} PUBLIC glfw glm freetype)
 ############################################################
