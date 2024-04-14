@@ -23,7 +23,6 @@ enum EventType {
   EVENT_CURSOR_CHANGED,
 
   /* Gameplay events */ 
-  EVENT_SCENE_CHANGE, 
   EVENT_SOUND_PLAY, 
   EVENT_MUSIC_PLAY, 
   EVENT_MUSIC_STOP, 

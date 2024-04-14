@@ -138,6 +138,10 @@ void shader_upload_int_index(Shader* shader, const std::string& name, const u32 
   glUniform1i(get_uniform_location(shader, index_name), value);
 }
 
+void shader_upload_int_arr(Shader* shader, const std::string& name, const i32* values, const usizei size) {
+  glUniform1iv(get_uniform_location(shader, name), size, values); 
+}
+
 void shader_upload_float(Shader* shader, const std::string& name, const f32 value) {
   glUniform1f(get_uniform_location(shader, name), value);
 }

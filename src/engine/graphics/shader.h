@@ -23,9 +23,10 @@ void shader_unload(Shader* shader);
 void shader_bind(Shader* shader); 
 
 void shader_upload_int(Shader* shader, const std::string& name, const i32 value);
-void shader_upload_float(Shader* shader, const std::string& name, const f32 value);
-
 void shader_upload_int_index(Shader* shader, const std::string& name, const u32 index, const i32 value);
+void shader_upload_int_arr(Shader* shader, const std::string& name, const i32* values, const usizei size);
+
+void shader_upload_float(Shader* shader, const std::string& name, const f32 value);
 
 void shader_upload_mat4(Shader* shader, const std::string& name, const glm::mat4& value);
 void shader_upload_vec4(Shader* shader, const std::string& name, const glm::vec4& value);

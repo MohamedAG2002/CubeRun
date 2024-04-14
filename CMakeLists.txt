@@ -24,20 +24,24 @@ set(CR_SOURCES
   ${CR_SRC_DIR}/engine/core/clock.cpp
   ${CR_SRC_DIR}/engine/core/event.cpp
   ${CR_SRC_DIR}/engine/core/input.cpp
-  ${CR_SRC_DIR}/engine/core/game.cpp
 
   # engine/editor
   ${CR_SRC_DIR}/editor/editor.cpp
   
   # engine/graphics
   ${CR_SRC_DIR}/engine/graphics/renderer.cpp
+  ${CR_SRC_DIR}/engine/graphics/renderer2d.cpp
   ${CR_SRC_DIR}/engine/graphics/shader.cpp
   ${CR_SRC_DIR}/engine/graphics/mesh.cpp
   ${CR_SRC_DIR}/engine/graphics/camera.cpp
   ${CR_SRC_DIR}/engine/graphics/font.cpp
+  ${CR_SRC_DIR}/engine/graphics/texture.cpp
   
   # engine/audio
   ${CR_SRC_DIR}/engine/audio/audio_system.cpp
+  
+  # game/
+  ${CR_SRC_DIR}/game/game.cpp
 )
 ############################################################
 
@@ -56,6 +60,7 @@ set(LIBS_SOURCE
   ${CR_LIBS_DIR}/ImGui/backends/imgui_impl_glfw.cpp
   
   ${CR_LIBS_DIR}/miniaudio/miniaudio.cpp
+  ${CR_LIBS_DIR}/stb_image/stb_image.cpp
 )
 ############################################################
 

@@ -1,19 +1,23 @@
 #pragma once
 
-#include "engine/graphics/mesh.h"
-#include "engine/graphics/camera.h"
+#include "engine/defines.h"
 
-// Game
+#include <string>
+
+// Public functions
 /////////////////////////////////////////////////////////////////////////////////
-struct Game {
-  Camera cam;
-  Mesh* mesh[10];  
+struct Texture {
+  u32 id;
+  i32 width, height;
+  i32 depth, slot, channels;
+  u32 format;
 };
 /////////////////////////////////////////////////////////////////////////////////
 
 // Public functions
 /////////////////////////////////////////////////////////////////////////////////
-bool game_init(Game& game);
-void game_shutdown(Game& game);
-void game_run(Game& game);
+Texture* texture_load(const std::string& path);
+Texture* texture_load(i32 width, i32 height, u32 format, void* pixels);
+void texture_unload(Texture* texture);
+void texture_render(Texture* texture);
 /////////////////////////////////////////////////////////////////////////////////
