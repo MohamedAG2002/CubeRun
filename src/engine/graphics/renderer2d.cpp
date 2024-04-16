@@ -26,7 +26,7 @@
 
 // Vertex 
 /////////////////////////////////////////////////////////////////////////////////
-struct Vertex {
+struct Vertex2D {
   glm::vec2 position; 
   glm::vec4 color; 
   glm::vec2 texture_coords;
@@ -44,7 +44,7 @@ struct Renderer2D {
 
   u32 vao, vbo, ebo; 
  
-  std::vector<Vertex> vertices;
+  std::vector<Vertex2D> vertices;
   glm::vec4 quad_vertices[4];
   Texture* textures[MAX_TEXTURES];
 
@@ -61,11 +61,6 @@ void setup_buffers() {
   glGenVertexArrays(1, &renderer->vao);
   glBindVertexArray(renderer->vao);
 
-  // Setup VBO
-  glGenBuffers(1, &renderer->vbo);
-  glBindBuffer(GL_ARRAY_BUFFER, renderer->vbo);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * MAX_VERTICES, nullptr, GL_DYNAMIC_DRAW);
-
   // Fill index buffer
   u32 indices[MAX_INDICES];
   u32 offset = 0; 
@@ -74,7 +69,7 @@ void setup_buffers() {
     indices[i + 1] = 1 + offset;
     indices[i + 2] = 2 + offset;
     
-    indices[i + 2] = 2 + offset;
+    indices[i + 3] = 2 + offset;
     indices[i + 4] = 3 + offset;
     indices[i + 5] = 0 + offset;
 
@@ -85,35 +80,46 @@ void setup_buffers() {
   glGenBuffers(1, &renderer->ebo);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, renderer->ebo);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+  
+  // Setup VBO
+  glGenBuffers(1, &renderer->vbo);
+  glBindBuffer(GL_ARRAY_BUFFER, renderer->vbo);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex2D) * MAX_VERTICES, nullptr, GL_DYNAMIC_DRAW);
 
   // Setup layouts 
   // Position 
   glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position)); 
+  glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex2D), (void*)offsetof(Vertex2D, position)); 
 
   // Color 
   glEnableVertexAttribArray(1);
-  glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color)); 
+  glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex2D), (void*)offsetof(Vertex2D, color)); 
   
   // Texture coords 
   glEnableVertexAttribArray(2);
-  glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texture_coords)); 
+  glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex2D), (void*)offsetof(Vertex2D, texture_coords)); 
   
   // Texture index
   glEnableVertexAttribArray(3);
-  glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texture_index)); 
+  glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(Vertex2D), (void*)offsetof(Vertex2D, texture_index)); 
 
   glBindVertexArray(0);
 }
 
 static void flush() {
+  glBindVertexArray(renderer->vao); 
+  
+  // Update the VAO with the filled vertices array
+  glBindBuffer(GL_ARRAY_BUFFER, renderer->vbo);
+  glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vertex2D) * renderer->vertices.size(), renderer->vertices.data());
+  
   // Render all of the compiled textures 
   for(u32 i = 0; i < renderer->texture_index; i++) {
     texture_render(renderer->textures[i]);
   }
 
   // Draw the compiled vertices 
-  glDrawArrays(GL_TRIANGLES, 0, renderer->indices);
+  glDrawElements(GL_TRIANGLES, renderer->indices, GL_UNSIGNED_INT, 0);
 
   // Reset the variables for the next pass 
   renderer->texture_index = 1;
@@ -170,7 +176,6 @@ void renderer2d_begin() {
 }
 
 void renderer2d_end() {
-  glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vertex) * renderer->vertices.size(), renderer->vertices.data());
   flush();
 }
 
@@ -242,36 +247,39 @@ void render_quad(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& c
   model = glm::scale(model, glm::vec3(size.x, size.y, 0.0f));
 
   // Top-left 
-  Vertex v; 
-  v.position       = renderer->quad_vertices[0] * model; 
-  v.color          = color;
-  v.texture_coords = glm::vec2(0.0f, 1.0f);
-  v.texture_index  = 0.0f;
-  renderer->vertices.push_back(v);
+  Vertex2D v1; 
+  v1.position       = renderer->quad_vertices[0] * model; 
+  v1.color          = color;
+  v1.texture_coords = glm::vec2(0.0f, 1.0f);
+  v1.texture_index  = 0.0f;
+  renderer->vertices.push_back(v1);
   
   // Top-right 
-  v.position       = renderer->quad_vertices[1] * model; 
-  v.color          = color;
-  v.texture_coords = glm::vec2(1.0f, 1.0f);
-  v.texture_index  = 0.0f;
-  renderer->vertices.push_back(v);
+  Vertex2D v2; 
+  v2.position       = renderer->quad_vertices[1] * model; 
+  v2.color          = color;
+  v2.texture_coords = glm::vec2(1.0f, 1.0f);
+  v2.texture_index  = 0.0f;
+  renderer->vertices.push_back(v2);
   
   // Bottom-right 
-  v.position       = renderer->quad_vertices[2] * model; 
-  v.color          = color;
-  v.texture_coords = glm::vec2(1.0f, 0.0f);
-  v.texture_index  = 0.0f;
-  renderer->vertices.push_back(v);
+  Vertex2D v3; 
+  v3.position       = renderer->quad_vertices[2] * model; 
+  v3.color          = color;
+  v3.texture_coords = glm::vec2(1.0f, 0.0f);
+  v3.texture_index  = 0.0f;
+  renderer->vertices.push_back(v3);
   
   // Bottom-left 
-  v.position       = renderer->quad_vertices[3] * model; 
-  v.color          = color;
-  v.texture_coords = glm::vec2(0.0f, 0.0f);
-  v.texture_index  = 0.0f;
-  renderer->vertices.push_back(v);
+  Vertex2D v4; 
+  v4.position       = renderer->quad_vertices[3] * model; 
+  v4.color          = color;
+  v4.texture_coords = glm::vec2(0.0f, 0.0f);
+  v4.texture_index  = 0.0f;
+  renderer->vertices.push_back(v4);
 
   // Increase the indices therefore add an extra quad
-  renderer->indices += 4;
+  renderer->indices += 6;
 }
 
 void render_quad(const glm::vec2& pos, const glm::vec2& size, const Texture* texture) {
@@ -287,7 +295,7 @@ void render_quad(const glm::vec2& pos, const glm::vec2& size, const Texture* tex
   model = glm::scale(model, glm::vec3(size.x, size.y, 0.0f));
   
   // Top-left 
-  Vertex v; 
+  Vertex2D v; 
   v.position       = renderer->quad_vertices[0] * model; 
   v.color          = glm::vec4(1.0f);
   v.texture_coords = glm::vec2(0.0f, 1.0f);
@@ -315,7 +323,7 @@ void render_quad(const glm::vec2& pos, const glm::vec2& size, const Texture* tex
   v.texture_index  = texture->slot;
   renderer->vertices.push_back(v);
   
-  renderer->indices += 4;
+  renderer->indices += 6;
 
   // Only adding the texture if it's unique and has never been added before 
   bool found = false; 

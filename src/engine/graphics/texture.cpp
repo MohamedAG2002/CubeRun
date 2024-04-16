@@ -71,14 +71,14 @@ Texture* texture_load(i32 width, i32 height, u32 format, void* pixels) {
   texture->depth    = 0;
   texture->slot     = texture_slots++;
   texture->channels = 4;
-  texture->format   = GL_RGBA;
+  texture->format   = format;
 
   glGenTextures(1, &texture->id);
   glBindTexture(GL_TEXTURE_2D, texture->id);
 
   if(pixels) {
     // Send the pixel data to the GPU and generate a mipmap
-    glTexImage2D(GL_TEXTURE_2D, texture->depth, texture->format, texture->width, texture->height, 0, texture->format, GL_UNSIGNED_BYTE, pixels);
+    glTexImage2D(GL_TEXTURE_2D, texture->depth, texture->format, texture->width, texture->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
     glGenerateMipmap(GL_TEXTURE_2D);
   }
   // Couldn't load the texture

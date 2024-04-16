@@ -9,6 +9,5 @@
 - Particles. Very simple 2D quads that fly everywhere 
 
 # BUGS
-- Fix batch renderer
 - And optimized renderer (instanced)
 - Better and faster fonts
