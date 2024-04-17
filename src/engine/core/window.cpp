@@ -134,6 +134,9 @@ static bool create_handle(i32 width, i32 height, const char* title) {
     glfwMakeContextCurrent(window.handle);
   }
 
+  // Disable VSYNC
+  glfwSwapInterval(0);
+  
   return true;
 }
 

@@ -12,7 +12,6 @@
 #include <glm/ext/matrix_clip_space.hpp>
 
 #include <cstddef>
-#include <cstdio>
 #include <string>
 #include <vector>
 
@@ -50,6 +49,8 @@ struct Renderer2D {
 
   usizei texture_index = 1; // Starts at one to skip the white texture
   usizei indices       = 0;
+
+  glm::mat4 ortho;
 };
 
 static Renderer2D* renderer;
@@ -158,6 +159,10 @@ void renderer2d_create() {
   renderer->quad_vertices[1] = glm::vec4( 0.5f, -0.5f, 0.0f, 1.0f);
   renderer->quad_vertices[2] = glm::vec4( 0.5f,  0.5f, 0.0f, 1.0f);
   renderer->quad_vertices[3] = glm::vec4(-0.5f,  0.5f, 0.0f, 1.0f);
+
+  // Setting up the camera's perspective in 2D 
+  glm::vec2 window_size = window_get_size();
+  renderer->ortho = glm::ortho(0.0f, window_size.x, window_size.y, 0.0f);
 }
 
 void renderer2d_destroy() {
@@ -171,6 +176,9 @@ void renderer2d_destroy() {
 }
 
 void renderer2d_begin() {
+  glm::vec2 window_size = window_get_size();
+  renderer->ortho = glm::ortho(0.0f, window_size.x, window_size.y, 0.0f);
+  
   shader_bind(renderer->batch_shader); 
   renderer->vertices.clear();
 }
@@ -179,13 +187,17 @@ void renderer2d_end() {
   flush();
 }
 
-void render_text(const Font* font, const std::string& text, const f32 size, glm::vec2& pos, const glm::vec4& color) {
+const Font* renderer2d_default_font() {
+  return renderer->default_font;
+}
+
+void render_text(const Font* font, const std::string& text, const f32 size, const glm::vec2& position, const glm::vec4& color) {
   glm::vec2 window_size = window_get_size();
-  glm::mat4 ortho = glm::ortho(0.0f, window_size.x, 0.0f, window_size.y);
+  glm::vec2 pos = position;
   f32 old_x = pos.x;  
- 
+
   shader_bind(renderer->font_shader);
-  shader_upload_mat4(renderer->font_shader, "u_projection", ortho);
+  shader_upload_mat4(renderer->font_shader, "u_projection", renderer->ortho);
   shader_upload_vec4(renderer->font_shader, "u_color", color);
 
   glBindVertexArray(font->vao);
@@ -207,13 +219,13 @@ void render_text(const Font* font, const std::string& text, const f32 size, glm:
     f32 height = (glyph.size.y * size);
 
     f32 vertices[6][4] = {
-      {x_pos,         y_pos + height, 0.0f, 0.0f},
-      {x_pos,         y_pos,          0.0f, 1.0f},
-      {x_pos + width, y_pos,          1.0f, 1.0f},
+      {x_pos,         y_pos + height, 0.0f, 1.0f},
+      {x_pos,         y_pos,          0.0f, 0.0f},
+      {x_pos + width, y_pos,          1.0f, 0.0f},
       
-      {x_pos,         y_pos + height, 0.0f, 0.0f},
-      {x_pos + width, y_pos,          1.0f, 1.0f},
-      {x_pos + width, y_pos + height, 1.0f, 0.0f},
+      {x_pos,         y_pos + height, 0.0f, 1.0f},
+      {x_pos + width, y_pos,          1.0f, 0.0f},
+      {x_pos + width, y_pos + height, 1.0f, 1.0f},
     };
 
     glBindTexture(GL_TEXTURE_2D, glyph.ID);
@@ -231,7 +243,7 @@ void render_text(const Font* font, const std::string& text, const f32 size, glm:
   shader_bind(renderer->batch_shader);
 }
 
-void render_text(const std::string& text, const f32 size, glm::vec2& pos, const glm::vec4& color) {
+void render_text(const std::string& text, const f32 size, const glm::vec2& pos, const glm::vec4& color) {
   render_text(renderer->default_font, text, size, pos, color);
 }
 
@@ -248,7 +260,7 @@ void render_quad(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& c
 
   // Top-left 
   Vertex2D v1; 
-  v1.position       = renderer->quad_vertices[0] * model; 
+  v1.position       = renderer->ortho * model * renderer->quad_vertices[0]; 
   v1.color          = color;
   v1.texture_coords = glm::vec2(0.0f, 1.0f);
   v1.texture_index  = 0.0f;
@@ -256,7 +268,7 @@ void render_quad(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& c
   
   // Top-right 
   Vertex2D v2; 
-  v2.position       = renderer->quad_vertices[1] * model; 
+  v2.position       = renderer->ortho * model * renderer->quad_vertices[1]; 
   v2.color          = color;
   v2.texture_coords = glm::vec2(1.0f, 1.0f);
   v2.texture_index  = 0.0f;
@@ -264,7 +276,7 @@ void render_quad(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& c
   
   // Bottom-right 
   Vertex2D v3; 
-  v3.position       = renderer->quad_vertices[2] * model; 
+  v3.position       = renderer->ortho * model * renderer->quad_vertices[2]; 
   v3.color          = color;
   v3.texture_coords = glm::vec2(1.0f, 0.0f);
   v3.texture_index  = 0.0f;
@@ -272,7 +284,7 @@ void render_quad(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& c
   
   // Bottom-left 
   Vertex2D v4; 
-  v4.position       = renderer->quad_vertices[3] * model; 
+  v4.position       = renderer->ortho * model * renderer->quad_vertices[3]; 
   v4.color          = color;
   v4.texture_coords = glm::vec2(0.0f, 0.0f);
   v4.texture_index  = 0.0f;
@@ -296,28 +308,28 @@ void render_quad(const glm::vec2& pos, const glm::vec2& size, const Texture* tex
   
   // Top-left 
   Vertex2D v; 
-  v.position       = renderer->quad_vertices[0] * model; 
+  v.position       = renderer->ortho * model * renderer->quad_vertices[0]; 
   v.color          = glm::vec4(1.0f);
   v.texture_coords = glm::vec2(0.0f, 1.0f);
   v.texture_index  = texture->slot;
   renderer->vertices.push_back(v);
   
   // Top-right 
-  v.position       = renderer->quad_vertices[1] * model; 
+  v.position       = renderer->ortho * model * renderer->quad_vertices[1]; 
   v.color          = glm::vec4(1.0f);
   v.texture_coords = glm::vec2(1.0f, 1.0f);
   v.texture_index  = texture->slot;
   renderer->vertices.push_back(v);
   
   // Bottom-right 
-  v.position       = renderer->quad_vertices[2] * model; 
+  v.position       = renderer->ortho * model * renderer->quad_vertices[2]; 
   v.color          = glm::vec4(1.0f);
   v.texture_coords = glm::vec2(1.0f, 0.0f);
   v.texture_index  = texture->slot;
   renderer->vertices.push_back(v);
   
   // Bottom-left 
-  v.position       = renderer->quad_vertices[3] * model; 
+  v.position       = renderer->ortho * model *  renderer->quad_vertices[3]; 
   v.color          = glm::vec4(1.0f);
   v.texture_coords = glm::vec2(0.0f, 0.0f);
   v.texture_index  = texture->slot;

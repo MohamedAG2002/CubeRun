@@ -9,12 +9,16 @@
 #include "engine/graphics/mesh.h"
 #include "engine/graphics/camera.h"
 #include "engine/audio/audio_system.h"
+#include "game/ui/button.h"
+#include "game/ui/text.h"
+#include "game/ui/ui_anchor.h"
 
 #include <cstdio>
 
 // Private functions
 /////////////////////////////////////////////////////////////////////////////////
 static void update(Game& game) {
+  
   if(input_key_pressed(KEY_ESCAPE)) {
     event_dispatch(EVENT_GAME_QUIT, EventDesc{});
     window_set_close(true);
@@ -43,10 +47,13 @@ static void render(Game& game) {
   /////////////////////////////////////////////////////////////////////////////////////////
   renderer2d_begin();
   
-  render_quad(glm::vec2(1.0f, 1.0f), glm::vec2(1.0f, 1.0f), glm::vec4(1.0f));
+  for(auto& text : game.texts) {
+    ui_text_render(text);
+  }
   
-  glm::vec2 text_pos = glm::vec2(100.0f, 100.0f);
-  render_text("CUBE RUN", 1.0f, text_pos, glm::vec4(1.0f));
+  for(auto& button : game.buttons) {
+    ui_button_render(button);
+  }
 
   renderer2d_end();
   /////////////////////////////////////////////////////////////////////////////////////////
@@ -66,7 +73,7 @@ bool game_init(Game& game) {
     return false;
   }
 
-  input_cursor_show(false);
+  input_cursor_show(true);
   input_init();
   editor_init();
 
@@ -85,7 +92,21 @@ bool game_init(Game& game) {
   for(int i = 0; i < 10; i++) {
     game.mesh[i] = mesh_create();
   }
+
   game.cam  = camera_create(glm::vec3(-10.0f, 0.0f, -10.0f), glm::vec3(0.0f, 0.0f, -3.0f));
+  
+  // game.texts.push_back(ui_text_create("UI_ANC_TOP_LEFT", 0.5f, UI_ANC_TOP_LEFT)); 
+  game.texts.push_back(ui_text_create("UI_ANC_TOP_CENTER", 0.5f, UI_ANC_TOP_CENTER, glm::vec4(1.0f))); 
+  // game.texts.push_back(ui_text_create("UI_ANC_TOP_RIGHT", 0.5f, UI_ANC_TOP_RIGHT)); 
+  // game.texts.push_back(ui_text_create("UI_ANC_CENTER_LEFT", 0.5f, UI_ANC_CENTER_LEFT)); 
+  // game.texts.push_back(ui_text_create("UI_ANC_CENTER", 0.5f, UI_ANC_CENTER)); 
+  // game.texts.push_back(ui_text_create("UI_ANC_CENTER_RIGHT", 0.5f, UI_ANC_CENTER_RIGHT)); 
+  // game.texts.push_back(ui_text_create("UI_ANC_BOTTOM_LEFT", 0.5f, UI_ANC_BOTTOM_LEFT)); 
+  // game.texts.push_back(ui_text_create("UI_ANC_BOTTOM_CENTER", 0.5f, UI_ANC_BOTTOM_CENTER)); 
+  // game.texts.push_back(ui_text_create("UI_ANC_BOTTOM_RIGHT", 0.5f, UI_ANC_BOTTOM_RIGHT)); 
+
+  game.buttons.push_back(ui_button_create("PLAY", UI_ANC_CENTER));
+  game.buttons.push_back(ui_button_create("SETTINGS", UI_ANC_CENTER_LEFT));
 
   return true;
 }

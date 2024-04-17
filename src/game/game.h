@@ -2,12 +2,18 @@
 
 #include "engine/graphics/mesh.h"
 #include "engine/graphics/camera.h"
+#include "ui/text.h"
+#include "ui/button.h"
+
+#include <vector>
 
 // Game
 /////////////////////////////////////////////////////////////////////////////////
 struct Game {
   Camera cam;
   Mesh* mesh[10];
+  std::vector<UIText> texts;
+  std::vector<UIButton> buttons;
 };
 /////////////////////////////////////////////////////////////////////////////////
 

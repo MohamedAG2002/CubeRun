@@ -42,6 +42,10 @@ set(CR_SOURCES
   
   # game/
   ${CR_SRC_DIR}/game/game.cpp
+  
+  # game/ui
+  ${CR_SRC_DIR}/game/ui/text.cpp
+  ${CR_SRC_DIR}/game/ui/button.cpp
 )
 ############################################################
 
