@@ -1,24 +1,9 @@
 #pragma once
 
-#include "game/scenes/overlay_type.h"
-
-struct Scene; 
-struct SceneOverlay;
-
-// SceneManager
-/////////////////////////////////////////////////////////////////////////////////
-struct SceneManager {
-  Scene* game_scene = nullptr;
-
-  SceneOverlay* overlays[OVERLAYS_MAX];
-  SceneOverlay* current_overlay = nullptr;
-};
-/////////////////////////////////////////////////////////////////////////////////
-
 // Public functions
 /////////////////////////////////////////////////////////////////////////////////
-SceneManager* scenes_create();
-void scenes_destroy(SceneManager* scenes);
-void scenes_update(SceneManager* scenes);
-void scenes_render(SceneManager* scenes);
+void scenes_create();
+void scenes_destroy();
+void scenes_update();
+void scenes_render();
 /////////////////////////////////////////////////////////////////////////////////

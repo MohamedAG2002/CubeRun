@@ -136,7 +136,8 @@ static bool create_handle(i32 width, i32 height, const char* title) {
 
   // Disable VSYNC
   glfwSwapInterval(0);
-  
+  glfwSetInputMode(window.handle, GLFW_RAW_MOUSE_MOTION, GLFW_FALSE); 
+
   return true;
 }
 

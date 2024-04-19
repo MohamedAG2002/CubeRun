@@ -30,7 +30,6 @@ set(CR_SOURCES
   
   # engine/graphics
   ${CR_SRC_DIR}/engine/graphics/renderer.cpp
-  ${CR_SRC_DIR}/engine/graphics/renderer2d.cpp
   ${CR_SRC_DIR}/engine/graphics/shader.cpp
   ${CR_SRC_DIR}/engine/graphics/mesh.cpp
   ${CR_SRC_DIR}/engine/graphics/camera.cpp
@@ -45,7 +44,12 @@ set(CR_SOURCES
   
   # game/ui
   ${CR_SRC_DIR}/game/ui/text.cpp
-  ${CR_SRC_DIR}/game/ui/button.cpp
+  
+  # game/scenes
+  ${CR_SRC_DIR}/game/scenes/scene_manager.cpp
+  ${CR_SRC_DIR}/game/scenes/menu_overlay.cpp
+  ${CR_SRC_DIR}/game/scenes/over_overlay.cpp
+  ${CR_SRC_DIR}/game/scenes/game_scene.cpp
 )
 ############################################################
 

@@ -3,6 +3,7 @@
 #include "engine/defines.h"
 #include "engine/audio/sound_type.h"
 #include "engine/audio/music_type.h"
+#include "game/scenes/scene_overlay.h"
 
 #include <glm/vec2.hpp>
 
@@ -26,6 +27,7 @@ enum EventType {
   EVENT_SOUND_PLAY, 
   EVENT_MUSIC_PLAY, 
   EVENT_MUSIC_STOP, 
+  EVENT_OVERLAY_CHANGE,
 };
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -43,6 +45,9 @@ struct EventDesc {
   // Audio desc 
   SoundType sound_type; 
   MusicType music_type;
+
+  // Scenes desc 
+  OverlayType overlay_type;
 };
 /////////////////////////////////////////////////////////////////////////////////
 

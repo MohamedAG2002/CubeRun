@@ -28,7 +28,7 @@ inline const glm::vec2 ui_anchor_get_position(UIAnchor anchor, const glm::vec2& 
   glm::vec2 pos(1.0f);
 
   // The space between the ui elements and the edges of the screen
-  glm::vec2 margin(10.0f, 10.0f);
+  glm::vec2 margin(30.0f, 10.0f);
 
   // COLOMN
   //////////////////////////////////////////////////////////////////////
@@ -46,7 +46,7 @@ inline const glm::vec2 ui_anchor_get_position(UIAnchor anchor, const glm::vec2& 
     case UI_ANC_TOP_RIGHT:
     case UI_ANC_CENTER_RIGHT:
     case UI_ANC_BOTTOM_RIGHT: 
-      pos.x = (window_size.x - element_size.x - 20.0f) + offset.x;
+      pos.x = (window_size.x - element_size.x - 30.0f) + offset.x;
       break;
   }
   //////////////////////////////////////////////////////////////////////

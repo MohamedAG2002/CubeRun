@@ -3,6 +3,7 @@
 #include "engine/defines.h"
 #include "engine/graphics/camera.h"
 #include "engine/graphics/shader.h"
+#include "engine/graphics/font.h"
 
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
@@ -14,17 +15,13 @@
 #include <string>
 #include <cstdio>
 
-// Defines
-/////////////////////////////////////////////////////////////////////////////////
-#define MODELS_MAX 400
-/////////////////////////////////////////////////////////////////////////////////
-
 // ShaderType
 /////////////////////////////////////////////////////////////////////////////////
 enum ShaderType {
   SHADER_BASIC = 0, 
   SHADER_CAMERA, 
-  SHADERS_MAX = 2,
+  SHADER_FONT,
+  SHADERS_MAX = 3,
 };
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -33,6 +30,7 @@ enum ShaderType {
 struct Renderer {
   Shader* shaders[SHADERS_MAX];
   Shader* current_shader;
+  Font* font;
 };
 
 static Renderer renderer;
@@ -72,12 +70,17 @@ const bool renderer_create() {
 
   renderer.shaders[SHADER_BASIC]  = shader_load("assets/shaders/basic.glsl");
   renderer.shaders[SHADER_CAMERA] = shader_load("assets/shaders/camera.glsl");
+  renderer.shaders[SHADER_FONT]   = shader_load("assets/shaders/font.glsl");
   renderer.current_shader         = renderer.shaders[SHADER_CAMERA];
-  
+ 
+  renderer.font = font_load("assets/fonts/HeavyDataNerdFont.ttf", 64);
+
   return true;
 }
 
 void renderer_destroy() {
+  font_unload(renderer.font);
+
   for(u32 i = 0; i < SHADERS_MAX; i++) {
     shader_unload(renderer.shaders[i]);
   }
@@ -99,6 +102,63 @@ void renderer_end() {
 
 void renderer_present() {
   window_swap_buffers();
+}
+
+const Font* renderer_default_font() {
+  return renderer.font;
+}
+
+void render_text(const std::string& text, const f32 size, const glm::vec2& position, const glm::vec4& color) {
+  glm::vec2 window_size = window_get_size();
+  glm::mat4 ortho = glm::ortho(0.0f, window_size.x, window_size.y, 0.0f);
+  glm::vec2 pos = position;
+  f32 old_x = pos.x;  
+
+  shader_bind(renderer.shaders[SHADER_FONT]);
+  shader_upload_mat4(renderer.shaders[SHADER_FONT], "u_projection", ortho);
+  shader_upload_vec4(renderer.shaders[SHADER_FONT], "u_color", color);
+
+  glBindVertexArray(renderer.font->vao);
+  glActiveTexture(GL_TEXTURE0);
+
+  std::string::const_iterator it;
+  for(it = text.begin(); it != text.end(); it++) {
+    Glyph glyph = renderer.font->glyphs[*it];
+
+    if(*it == ' ' || *it == '\t') {
+      pos.x += (glyph.advance >> 6) * size;
+      continue;
+    }
+
+    f32 x_pos = pos.x + glyph.bearing.x * size; 
+    f32 y_pos = pos.y - (glyph.size.y - glyph.bearing.y) * size; 
+    
+    f32 width  = (glyph.size.x * size);
+    f32 height = (glyph.size.y * size);
+
+    f32 vertices[6][4] = {
+      {x_pos,         y_pos + height, 0.0f, 1.0f},
+      {x_pos,         y_pos,          0.0f, 0.0f},
+      {x_pos + width, y_pos,          1.0f, 0.0f},
+      
+      {x_pos,         y_pos + height, 0.0f, 1.0f},
+      {x_pos + width, y_pos,          1.0f, 0.0f},
+      {x_pos + width, y_pos + height, 1.0f, 1.0f},
+    };
+
+    glBindTexture(GL_TEXTURE_2D, glyph.ID);
+    glBindBuffer(GL_ARRAY_BUFFER, renderer.font->vbo);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+
+    pos.x += (glyph.advance >> 6) * size;
+  }
+    
+  glBindVertexArray(0);
+  glBindBuffer(GL_ARRAY_BUFFER, 0); 
+
+  // This is cheating but whatever 
+  shader_bind(renderer.shaders[SHADER_CAMERA]);
 }
 
 void render_mesh(const Mesh* mesh, const glm::vec3& pos, const glm::vec4& color) {
