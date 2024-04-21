@@ -54,6 +54,10 @@ set(CR_SOURCES
   # game/entities
   ${CR_SRC_DIR}/game/entities/entity_manager.cpp
   ${CR_SRC_DIR}/game/entities/player.cpp
+  
+  # game/physics
+  ${CR_SRC_DIR}/game/physics/collider.cpp
+  ${CR_SRC_DIR}/game/physics/physics_world.cpp
 )
 ############################################################
 

@@ -1,24 +1,20 @@
-#pragma once
-
-#include "engine/defines.h"
+#include "collider.h"
 
 #include <glm/vec3.hpp>
 
-// Mesh
+// Private functions
 /////////////////////////////////////////////////////////////////////////////////
-struct Mesh {
-  glm::vec3* vertices; 
-  u32 vertex_count;
-
-  u32* indices;
-  u32 index_count;
-
-  u32 vao, vbo, ebo;
-};
 /////////////////////////////////////////////////////////////////////////////////
 
 // Public functions
 /////////////////////////////////////////////////////////////////////////////////
-Mesh* mesh_create();
-void mesh_destroy(Mesh* mesh);
+const ColliderData collider_colliding(const Collider* coll1, const Collider* coll2) {
+  ColliderData data; 
+
+  return data;
+}
+
+void collider_update_vertices(Collider* collider) {
+
+}
 /////////////////////////////////////////////////////////////////////////////////

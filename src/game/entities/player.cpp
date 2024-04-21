@@ -4,6 +4,7 @@
 #include "engine/graphics/mesh.h"
 #include "engine/graphics/renderer.h"
 #include "engine/core/input.h"
+#include "game/physics/collider.h"
 
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>

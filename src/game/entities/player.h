@@ -2,12 +2,10 @@
 
 #include "engine/defines.h"
 #include "engine/graphics/mesh.h"
+#include "game/physics/collider.h"
 
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
-
-// @TEMP
-struct Collider;
 
 // Player
 /////////////////////////////////////////////////////////////////////////////////

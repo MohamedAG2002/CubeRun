@@ -171,6 +171,6 @@ void render_mesh(const Mesh* mesh, const glm::vec3& pos, const glm::vec4& color)
   shader_upload_vec4(renderer.current_shader, "u_color", color);
 
   glBindVertexArray(mesh->vao);
-  glDrawElements(GL_TRIANGLES, mesh->indices.size(), GL_UNSIGNED_INT, 0);
+  glDrawElements(GL_TRIANGLES, mesh->index_count, GL_UNSIGNED_INT, 0);
 }
 /////////////////////////////////////////////////////////////////////////////////
