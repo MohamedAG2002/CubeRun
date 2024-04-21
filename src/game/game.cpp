@@ -46,7 +46,7 @@ bool game_init() {
     return false;
   }
 
-  input_cursor_show(true);
+  input_cursor_show(false);
   input_init();
   editor_init();
 
@@ -85,7 +85,6 @@ void game_shutdown() {
 void game_run() {
   while(!window_should_close()) {
     crclock_update();
-    
     update();
     input_update();
     

@@ -1,6 +1,5 @@
 # TODO: 
-- Entities 
-- Serialization and making the editor better 
+- Entities -> Player, EntityManager, etc. 
 - Physics -> minimal. Maybe use a library but try to do it on your own accord
 - Particles. Very simple 2D quads that fly everywhere 
 

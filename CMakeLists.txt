@@ -50,6 +50,10 @@ set(CR_SOURCES
   ${CR_SRC_DIR}/game/scenes/menu_overlay.cpp
   ${CR_SRC_DIR}/game/scenes/over_overlay.cpp
   ${CR_SRC_DIR}/game/scenes/game_scene.cpp
+  
+  # game/entities
+  ${CR_SRC_DIR}/game/entities/entity_manager.cpp
+  ${CR_SRC_DIR}/game/entities/player.cpp
 )
 ############################################################
 

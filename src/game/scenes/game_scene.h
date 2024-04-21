@@ -1,16 +1,15 @@
 #pragma once
 
 #include "game/ui/text.h"
+#include "game/entities/entity_manager.h"
 #include "engine/graphics/camera.h"
-#include "engine/graphics/mesh.h"
 
 // GameScene
 /////////////////////////////////////////////////////////////////////////////////
 struct GameScene {
-  // EntityManager* entities; 
+  EntityManager* entities; 
   UIText pause_text; 
   Camera camera;
-  Mesh* mesh[10];
 
   bool is_paused, is_active; 
 };
