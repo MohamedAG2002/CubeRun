@@ -164,8 +164,8 @@ void render_text(const std::string& text, const f32 size, const glm::vec2& posit
 void render_mesh(Mesh* mesh, const glm::vec3& pos, const glm::vec3 scale, const glm::vec4& color) {
   glm::mat4 model = glm::mat4(1.0f); 
   model           = glm::translate(model, pos) * 
-                    glm::rotate(model, 0.0f, scale) * 
-                    glm::scale(model, glm::vec3(1.0f));
+                    glm::rotate(model, 0.0f, glm::vec3(1.0f)) * 
+                    glm::scale(model, scale);
 
   // Transforming the min/max of the mesh into model space 
   glm::vec4 min = model * glm::vec4(mesh->min, 1.0f);

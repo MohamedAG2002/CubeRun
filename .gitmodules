@@ -13,3 +13,6 @@
 [submodule "libs/ImGui"]
 	path = libs/ImGui
 	url = git@github.com:ocornut/imgui.git
+[submodule "libs/yaml-cpp"]
+	path = libs/yaml-cpp
+	url = git@github.com:jbeder/yaml-cpp.git

@@ -23,7 +23,7 @@ static void move_player(Player* player) {
     player->velocity.y = PLAYER_SPEED;     
   }
   else {
-    player->velocity.y -= PLAYER_GRAVITY;
+    //player->velocity.y -= PLAYER_GRAVITY;
   }
 }
 /////////////////////////////////////////////////////////////////////////////////

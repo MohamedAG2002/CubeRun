@@ -1,0 +1,31 @@
+player:
+  position:
+    x: 10
+    y: 5.26300001
+    z: -5
+  scale:
+    x: 1
+    y: 1
+    z: 1
+  color:
+    r: 1
+    g: 1
+    b: 0
+    a: 1
+  active: true
+  tries: 3
+platforms-count: 1
+platform-0:
+  position:
+    x: 11.4289999
+    y: 0
+    z: -5
+  scale:
+    x: 10
+    y: 0.57099998
+    z: 10
+  color:
+    r: 1
+    g: 1
+    b: 1
+    a: 1

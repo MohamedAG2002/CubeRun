@@ -13,6 +13,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 add_subdirectory(libs/GLFW)
 add_subdirectory(libs/glm)
 add_subdirectory(libs/freetype)
+add_subdirectory(libs/yaml-cpp)
 ############################################################
 
 # Source
@@ -50,6 +51,7 @@ set(CR_SOURCES
   ${CR_SRC_DIR}/game/scenes/menu_overlay.cpp
   ${CR_SRC_DIR}/game/scenes/over_overlay.cpp
   ${CR_SRC_DIR}/game/scenes/game_scene.cpp
+  ${CR_SRC_DIR}/game/scenes/serializer.cpp
   
   # game/entities
   ${CR_SRC_DIR}/game/entities/entity_manager.cpp
@@ -93,5 +95,5 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${CR_LIBS_DIR}/)
 
 file(COPY assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
-target_link_libraries(${PROJECT_NAME} PUBLIC glfw glm freetype)
+target_link_libraries(${PROJECT_NAME} PUBLIC glfw glm freetype yaml-cpp)
 ############################################################

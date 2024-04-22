@@ -25,7 +25,7 @@ Camera camera_create(const glm::vec3& position, const glm::vec3& target) {
   cam.yaw   = -90.0f;
   cam.pitch = 0.0f;
   cam.zoom  = 45.0f;
-  cam.type  = CAMERA_FIXED;
+  cam.type  = CAMERA_FREE;
 
   glm::vec3 look_dir   = glm::vec3(position - target); 
   glm::vec3 up_axis    = glm::vec3(0.0f, 1.0f, 0.0f);

@@ -7,7 +7,7 @@
 // GameScene
 /////////////////////////////////////////////////////////////////////////////////
 struct GameScene {
-  EntityManager* entities; 
+  EntityManager* entities = nullptr; 
   UIText pause_text; 
   Camera camera;
 

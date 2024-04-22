@@ -59,23 +59,35 @@ void editor_end() {
 
 void editor_entities(EntityManager* entities) {
 #ifdef EDITOR_ACTIVE
-  ImGui::Begin("Entities");
-
   // Player settings 
-  ImGui::SeparatorText("Player");
+  ///////////////////////////////////////////////////////////////////////////////
+  ImGui::Begin("Player");
   ImGui::SliderFloat3("Position", &entities->player.position.x, -100.0f, 100.0f);
-  ImGui::SliderFloat3("Scale", &entities->player.scale.x, -10.0f, 10.0f);
+  ImGui::SliderFloat3("Scale", &entities->player.scale.x, 0.0f, 10.0f);
   ImGui::SliderFloat3("Velocity", &entities->player.velocity.x, -100.0f, 100.0f);
   ImGui::ColorEdit4("Color", &entities->player.color.r);
+  ImGui::End();
+  ///////////////////////////////////////////////////////////////////////////////
 
   // Platform settings 
-  ImGui::SeparatorText("Platforms");
-  ImGui::SliderFloat3("Position", &entities->player.position.x, -100.0f, 100.0f);
-  ImGui::SliderFloat3("Scale", &entities->player.scale.x, -10.0f, 10.0f);
-  ImGui::SliderFloat3("Velocity", &entities->player.velocity.x, -100.0f, 100.0f);
-  ImGui::ColorEdit4("Color", &entities->player.color.r);
-  
+  ///////////////////////////////////////////////////////////////////////////////
+  ImGui::Begin("Platforms");
+  if(ImGui::Button("Add platform")) {
+    entities_platform_add(entities, glm::vec3(20.0f, 0.0f, -5.0f));
+  } 
+
+  if(entities->platforms.size() > 0) {
+    for(u32 i = 0; i < entities->platforms.size(); i++) {
+      Platform* plat = &entities->platforms[i];
+
+      ImGui::SeparatorText("Platform");
+      ImGui::SliderFloat3("Position", &plat->position.x, -100.0f, 100.0f);
+      ImGui::SliderFloat3("Scale", &plat->scale.x, 0.0f, 10.0f);
+      ImGui::ColorEdit4("Color", &plat->color.r);
+    }
+  }
   ImGui::End();
+  ///////////////////////////////////////////////////////////////////////////////
 #endif
 }
 /////////////////////////////////////////////////////////////////////////////////

@@ -5,9 +5,12 @@
 #include "game/ui/text.h"
 #include "game/entities/entity_manager.h"
 #include "game/physics/physics_world.h"
+#include "game/scenes/serializer.h"
 #include "editor/editor.h"
 
 #include <glm/glm.hpp>
+
+#include <cstdio>
 
 // Public functions
 /////////////////////////////////////////////////////////////////////////////////
@@ -15,14 +18,17 @@ GameScene* game_scene_create() {
   GameScene* game = new GameScene{};
 
   physics_world_create();
-  game->entities   = entities_create();
+
+  game->entities = entities_create();
+  deserialize_entities(game->entities);
+  input_cursor_show(true); 
 
   game->pause_text = ui_text_create("PAUSED", 0.5f, UI_ANC_CENTER, glm::vec4(1.0f));
   game->is_paused  = false; 
   game->is_active  = true; 
   game->is_editing = false;
   
-  game->camera     = camera_create(glm::vec3(-10.0f, 0.0f, -10.0f), glm::vec3(0.0f, 0.0f, -3.0f));
+  game->camera     = camera_create(glm::vec3(0.0f, 0.0f, -5.0f), glm::vec3(0.0f, 0.0f, -3.0f));
 
   return game;
 }
@@ -46,14 +52,19 @@ void game_scene_update(GameScene* game) {
     game->is_editing = !game->is_editing;
     input_cursor_show(game->is_editing);
   }
-
+  
   if(game->is_editing) {
+    if(input_key_down(KEY_LEFT_CONTROL) && input_key_pressed(KEY_S)) {
+      serialize_entities(game->entities);
+      printf("ENTITIES SAVED\n");
+    }
+
     return;
   }
-
+  
   camera_update(&game->camera);
   camera_move(&game->camera);
-  
+    
   physics_world_update();
   entities_update(game->entities);
 }
