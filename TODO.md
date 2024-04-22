@@ -1,4 +1,5 @@
 # TODO: 
+- Serialization?
 - Physics -> minimal. Maybe use a library but try to do it on your own accord
 - Particles. Very simple 2D quads that fly everywhere 
 

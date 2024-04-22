@@ -13,7 +13,7 @@ struct Player {
   bool is_active;
   u32 tries;
 
-  glm::vec3 position, velocity;
+  glm::vec3 position, scale, velocity;
   glm::vec4 color;
 
   Collider* collider;

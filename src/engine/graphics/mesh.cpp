@@ -1,6 +1,8 @@
 #include "mesh.h"
 #include "engine/defines.h"
 
+#include <glm/common.hpp>
+#include <glm/vec3.hpp>
 #include <glad/gl.h>
 
 // Private functions
@@ -119,6 +121,15 @@ static void setup_buffers(Mesh* mesh) {
 Mesh* mesh_create() {
   Mesh* mesh = new Mesh{};
   setup_buffers(mesh);
+
+  mesh->min = mesh->vertices[0];
+  mesh->max = mesh->vertices[0];
+  for(u32 i = 1; i < mesh->vertex_count; i++) {
+    glm::vec3 vertex = mesh->vertices[i];
+
+    mesh->min = glm::min(mesh->min, vertex);
+    mesh->max = glm::max(mesh->max, vertex);
+  }
 
   return mesh;
 }

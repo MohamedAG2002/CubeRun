@@ -5,6 +5,7 @@
 #include "engine/graphics/renderer.h"
 #include "engine/core/input.h"
 #include "game/physics/collider.h"
+#include "game/physics/physics_world.h"
 
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
@@ -34,9 +35,11 @@ Player player_create(const glm::vec3& pos) {
   p.is_active = true; 
   p.tries     = 3; 
   p.position  = pos;
+  p.scale     = glm::vec3(1.0f);
   p.velocity  = glm::vec3(0.0f);
   p.color     = glm::vec4(1.0f, 1.0f, 0.0f, 1.0f);
   p.mesh      = mesh_create();
+  p.collider  = physics_world_add_collider(p.mesh);
 
   return p;
 }
@@ -64,6 +67,6 @@ void player_render(Player* player) {
     return;
   }
   
-  render_mesh(player->mesh, player->position, player->color); 
+  render_mesh(player->mesh, player->position, player->scale, player->color); 
 }
 /////////////////////////////////////////////////////////////////////////////////

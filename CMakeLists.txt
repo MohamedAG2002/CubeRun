@@ -84,7 +84,7 @@ set(LIBS_SOURCE
 ############################################################
 add_executable(${PROJECT_NAME} ${CR_SOURCES} ${LIBS_SOURCE})
 
-target_compile_definitions(${PROJECT_NAME} PUBLIC GLFW_INCLUDE_NONE)
+target_compile_definitions(${PROJECT_NAME} PUBLIC GLFW_INCLUDE_NONE EDITOR_ACTIVE)
 target_compile_options(${PROJECT_NAME} PRIVATE -lm -O1)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
 

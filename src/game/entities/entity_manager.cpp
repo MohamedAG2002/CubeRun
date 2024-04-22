@@ -19,7 +19,7 @@ void entities_destroy(EntityManager* entities) {
 }
 
 void entities_update(EntityManager* entities) {
-  player_update(&entities->player);
+  //player_update(&entities->player);
 }
 
 void entities_render(EntityManager* entities) {

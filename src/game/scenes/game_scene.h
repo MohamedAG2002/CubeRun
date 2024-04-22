@@ -11,7 +11,7 @@ struct GameScene {
   UIText pause_text; 
   Camera camera;
 
-  bool is_paused, is_active; 
+  bool is_paused, is_active, is_editing; 
 };
 /////////////////////////////////////////////////////////////////////////////////
 

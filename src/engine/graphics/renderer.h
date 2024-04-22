@@ -21,5 +21,5 @@ void renderer_present();
 const Font* renderer_default_font();
 
 void render_text(const std::string& text, const f32 size, const glm::vec2& position, const glm::vec4& color);
-void render_mesh(const Mesh* mesh, const glm::vec3& pos, const glm::vec4& color);
+void render_mesh(Mesh* mesh, const glm::vec3& pos, const glm::vec3 scale, const glm::vec4& color);
 /////////////////////////////////////////////////////////////////////////////////

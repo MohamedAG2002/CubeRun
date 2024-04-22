@@ -161,12 +161,19 @@ void render_text(const std::string& text, const f32 size, const glm::vec2& posit
   shader_bind(renderer.shaders[SHADER_CAMERA]);
 }
 
-void render_mesh(const Mesh* mesh, const glm::vec3& pos, const glm::vec4& color) {
+void render_mesh(Mesh* mesh, const glm::vec3& pos, const glm::vec3 scale, const glm::vec4& color) {
   glm::mat4 model = glm::mat4(1.0f); 
   model           = glm::translate(model, pos) * 
-                    glm::rotate(model, 0.0f, glm::vec3(1.0f)) * 
+                    glm::rotate(model, 0.0f, scale) * 
                     glm::scale(model, glm::vec3(1.0f));
-  
+
+  // Transforming the min/max of the mesh into model space 
+  glm::vec4 min = model * glm::vec4(mesh->min, 1.0f);
+  glm::vec4 max = model * glm::vec4(mesh->max, 1.0f);
+ 
+  mesh->min = glm::vec3(min);
+  mesh->max = glm::vec3(max);
+
   shader_upload_mat4(renderer.current_shader, "u_model", model);
   shader_upload_vec4(renderer.current_shader, "u_color", color);
 

@@ -3,7 +3,6 @@
 #include "engine/core/clock.h"
 #include "engine/core/event.h"
 #include "engine/core/input.h"
-#include "editor/editor.h"
 #include "engine/graphics/renderer.h"
 #include "engine/audio/audio_system.h"
 #include "game/scenes/scene_manager.h"
@@ -21,9 +20,7 @@ static void update() {
 }
 
 static void render() {
-  //editor_begin();
   scenes_render();
-  //editor_end();
 }
 
 static bool quit_game_callback(const EventType type, const EventDesc& desc) {
@@ -48,7 +45,6 @@ bool game_init() {
 
   input_cursor_show(false);
   input_init();
-  editor_init();
 
   if(!renderer_create()) {
     printf("[ERROR]: Renderer failed to be created\n");
@@ -77,8 +73,6 @@ void game_shutdown() {
   audio_system_shutdown();
 
   renderer_destroy();
-  
-  editor_shutdown();
   window_destroy();
 }
 
