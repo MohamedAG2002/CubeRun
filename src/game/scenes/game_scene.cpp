@@ -21,7 +21,6 @@ GameScene* game_scene_create() {
 
   game->entities = entities_create();
   deserialize_entities(game->entities);
-  input_cursor_show(true); 
 
   game->pause_text = ui_text_create("PAUSED", 0.5f, UI_ANC_CENTER, glm::vec4(1.0f));
   game->is_paused  = false; 

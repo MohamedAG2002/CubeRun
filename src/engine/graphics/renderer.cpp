@@ -167,13 +167,6 @@ void render_mesh(Mesh* mesh, const glm::vec3& pos, const glm::vec3 scale, const 
                     glm::rotate(model, 0.0f, glm::vec3(1.0f)) * 
                     glm::scale(model, scale);
 
-  // Transforming the min/max of the mesh into model space 
-  glm::vec4 min = model * glm::vec4(mesh->min, 1.0f);
-  glm::vec4 max = model * glm::vec4(mesh->max, 1.0f);
- 
-  mesh->min = glm::vec3(min);
-  mesh->max = glm::vec3(max);
-
   shader_upload_mat4(renderer.current_shader, "u_model", model);
   shader_upload_vec4(renderer.current_shader, "u_color", color);
 

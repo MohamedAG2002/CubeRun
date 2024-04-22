@@ -40,11 +40,18 @@ set(CR_SOURCES
   # engine/audio
   ${CR_SRC_DIR}/engine/audio/audio_system.cpp
   
+  # engine/math
+  ${CR_SRC_DIR}/engine/math/rand.cpp
+  
   # game/
   ${CR_SRC_DIR}/game/game.cpp
   
   # game/ui
   ${CR_SRC_DIR}/game/ui/text.cpp
+  
+  # game/physics
+  ${CR_SRC_DIR}/game/physics/collider.cpp
+  ${CR_SRC_DIR}/game/physics/physics_world.cpp
   
   # game/scenes
   ${CR_SRC_DIR}/game/scenes/scene_manager.cpp
@@ -56,10 +63,6 @@ set(CR_SOURCES
   # game/entities
   ${CR_SRC_DIR}/game/entities/entity_manager.cpp
   ${CR_SRC_DIR}/game/entities/player.cpp
-  
-  # game/physics
-  ${CR_SRC_DIR}/game/physics/collider.cpp
-  ${CR_SRC_DIR}/game/physics/physics_world.cpp
 )
 ############################################################
 

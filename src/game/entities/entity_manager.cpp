@@ -32,6 +32,7 @@ void entities_render(EntityManager* entities) {
 
   for(auto& platform : entities->platforms) {
     render_mesh(platform.mesh, platform.position, platform.scale, platform.color);
+    platform.collider->position = platform.position;
   }
 }
 
@@ -41,7 +42,7 @@ void entities_platform_add(EntityManager* entities, const glm::vec3& pos) {
   plat.scale    = glm::vec3(1.0f);
   plat.color    = glm::vec4(1.0f);
   plat.mesh     = mesh_create(); 
-  plat.collider = physics_world_add_collider(plat.mesh);
+  plat.collider = physics_world_add_collider(plat.position, plat.scale);
 
   entities->platforms.push_back(plat);
 }

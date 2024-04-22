@@ -38,7 +38,7 @@ static bool quit_game_callback(const EventType type, const EventDesc& desc) {
 bool game_init() {
   // Systems/managers init  
   ///////////////////////////////////////////////// 
-  if(!window_create(1280, 720, "Cube Run")) {
+  if(!window_create(800, 600, "Cube Run")) {
     printf("[ERROR]: Window failed to be created\n");
     return false;
   }

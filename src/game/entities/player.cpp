@@ -23,7 +23,7 @@ static void move_player(Player* player) {
     player->velocity.y = PLAYER_SPEED;     
   }
   else {
-    //player->velocity.y -= PLAYER_GRAVITY;
+    player->velocity.y -= PLAYER_GRAVITY;
   }
 }
 /////////////////////////////////////////////////////////////////////////////////
@@ -39,7 +39,7 @@ Player player_create(const glm::vec3& pos) {
   p.velocity  = glm::vec3(0.0f);
   p.color     = glm::vec4(1.0f, 1.0f, 0.0f, 1.0f);
   p.mesh      = mesh_create();
-  p.collider  = physics_world_add_collider(p.mesh);
+  p.collider  = physics_world_add_collider(p.position, p.scale);
 
   return p;
 }
@@ -60,6 +60,7 @@ void player_update(Player* player) {
 
   move_player(player);
   player->position += player->velocity * (f32)crclock_delta_time();
+  player->collider->position = player->position;
 }
 
 void player_render(Player* player) {

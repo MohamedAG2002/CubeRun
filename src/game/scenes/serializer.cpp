@@ -115,7 +115,7 @@ void deserialize_entities(EntityManager* entities) {
     plat.color.a = node[node_str]["color"]["a"].as<f32>();
 
     plat.mesh     = mesh_create();
-    plat.collider = physics_world_add_collider(plat.mesh);
+    plat.collider = physics_world_add_collider(plat.position, plat.scale);
 
     entities->platforms.push_back(plat);
   }
