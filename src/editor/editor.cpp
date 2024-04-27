@@ -62,9 +62,9 @@ void editor_entities(EntityManager* entities) {
   // Player settings 
   ///////////////////////////////////////////////////////////////////////////////
   ImGui::Begin("Player");
-  ImGui::SliderFloat3("Position", &entities->player.position.x, -100.0f, 100.0f);
-  ImGui::SliderFloat3("Scale", &entities->player.scale.x, 0.0f, 10.0f);
-  ImGui::SliderFloat3("Velocity", &entities->player.velocity.x, -100.0f, 100.0f);
+  ImGui::DragFloat3("Position", &entities->player.position.x, -100.0f, 100.0f);
+  ImGui::DragFloat3("Scale", &entities->player.scale.x, 0.0f, 10.0f);
+  ImGui::DragFloat3("Velocity", &entities->player.velocity.x, -100.0f, 100.0f);
   ImGui::ColorEdit4("Color", &entities->player.color.r);
   ImGui::End();
   ///////////////////////////////////////////////////////////////////////////////
@@ -73,18 +73,16 @@ void editor_entities(EntityManager* entities) {
   ///////////////////////////////////////////////////////////////////////////////
   ImGui::Begin("Platforms");
   if(ImGui::Button("Add platform")) {
-    entities_platform_add(entities, glm::vec3(20.0f, 0.0f, -5.0f));
+    Platform* plat = &entities_platform_add(entities, glm::vec3(20.0f, 0.0f, -5.0f), glm::vec3(1.0f), glm::vec4(1.0f));
   } 
 
-  if(entities->platforms.size() > 0) {
-    for(u32 i = 0; i < entities->platforms.size(); i++) {
-      Platform* plat = &entities->platforms[i];
+  if(!entities->platforms.empty()) {
+    Platform* plat = &entities->platforms.back();
 
-      ImGui::SeparatorText("Platform");
-      ImGui::SliderFloat3("Position", &plat->position.x, -100.0f, 100.0f);
-      ImGui::SliderFloat3("Scale", &plat->scale.x, 0.0f, 10.0f);
-      ImGui::ColorEdit4("Color", &plat->color.r);
-    }
+    ImGui::SeparatorText("Platform");
+    ImGui::InputFloat3("Position", &plat->body->position.x);//, -100.0f, 100.0f);
+    ImGui::InputFloat3("Scale", &plat->scale.x);//, 0.0f, 10.0f);
+    ImGui::ColorEdit4("Color", &plat->color.r);
   }
   ImGui::End();
   ///////////////////////////////////////////////////////////////////////////////

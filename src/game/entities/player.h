@@ -2,7 +2,7 @@
 
 #include "engine/defines.h"
 #include "engine/graphics/mesh.h"
-#include "game/physics/collider.h"
+#include "game/physics/body.h"
 
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
@@ -16,7 +16,7 @@ struct Player {
   glm::vec3 position, scale, velocity;
   glm::vec4 color;
 
-  Collider* collider;
+  Body* body;
   Mesh* mesh;
 };
 /////////////////////////////////////////////////////////////////////////////////

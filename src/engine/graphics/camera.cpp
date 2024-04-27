@@ -66,20 +66,20 @@ void camera_move(Camera* camera) {
   f32 speed = CAM_SPEED * crclock_delta_time();
 
   // Move forward
-  if(input_key_down(KEY_W)) {
+  if(input_key_down(KEY_UP)) {
     camera->position += camera->front * speed;
   }
   // Move backwards
-  else if(input_key_down(KEY_S)) {
+  else if(input_key_down(KEY_DOWN)) {
     camera->position -= camera->front * speed;
   }
  
   // Move right
-  if(input_key_down(KEY_D)) {
+  if(input_key_down(KEY_RIGHT)) {
     camera->position += glm::normalize(glm::cross(camera->front, camera->up)) * speed;
   }
   // Move left
-  else if(input_key_down(KEY_A)) {
+  else if(input_key_down(KEY_LEFT)) {
     camera->position -= glm::normalize(glm::cross(camera->front, camera->up)) * speed;
   }
 

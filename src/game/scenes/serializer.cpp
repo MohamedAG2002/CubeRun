@@ -1,8 +1,6 @@
 #include "serializer.h"
 #include "engine/defines.h"
-#include "engine/graphics/mesh.h"
 #include "game/entities/entity_manager.h"
-#include "game/physics/physics_world.h"
 
 #include <yaml-cpp/yaml.h>
 
@@ -98,26 +96,25 @@ void deserialize_entities(EntityManager* entities) {
   usizei platform_count = node["platforms-count"].as<usizei>();
 
   for(u32 i = 0; i < platform_count; i++) {
-    Platform plat{};
     std::string node_str = "platform-" + std::to_string(i);
 
-    plat.position.x = node[node_str]["position"]["x"].as<f32>();
-    plat.position.y = node[node_str]["position"]["y"].as<f32>();
-    plat.position.z = node[node_str]["position"]["z"].as<f32>();
+    glm::vec3 position(0.0f);
+    position.x = node[node_str]["position"]["x"].as<f32>();
+    position.y = node[node_str]["position"]["y"].as<f32>();
+    position.z = node[node_str]["position"]["z"].as<f32>();
+   
+    glm::vec3 scale(1.0f);
+    scale.x = node[node_str]["scale"]["x"].as<f32>();
+    scale.y = node[node_str]["scale"]["y"].as<f32>();
+    scale.z = node[node_str]["scale"]["z"].as<f32>();
+
+    glm::vec4 color(0.0f);
+    color.r = node[node_str]["color"]["r"].as<f32>();
+    color.g = node[node_str]["color"]["g"].as<f32>();
+    color.b = node[node_str]["color"]["b"].as<f32>();
+    color.a = node[node_str]["color"]["a"].as<f32>();
     
-    plat.scale.x = node[node_str]["scale"]["x"].as<f32>();
-    plat.scale.y = node[node_str]["scale"]["y"].as<f32>();
-    plat.scale.z = node[node_str]["scale"]["z"].as<f32>();
- 
-    plat.color.r = node[node_str]["color"]["r"].as<f32>();
-    plat.color.g = node[node_str]["color"]["g"].as<f32>();
-    plat.color.b = node[node_str]["color"]["b"].as<f32>();
-    plat.color.a = node[node_str]["color"]["a"].as<f32>();
-
-    plat.mesh     = mesh_create();
-    plat.collider = physics_world_add_collider(plat.position, plat.scale);
-
-    entities->platforms.push_back(plat);
+    Platform* plat = &entities_platform_add(entities, position, scale, color);
   }
   ///////////////////////////////////////////////////////
 }

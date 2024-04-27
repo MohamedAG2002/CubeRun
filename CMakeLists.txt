@@ -50,8 +50,9 @@ set(CR_SOURCES
   ${CR_SRC_DIR}/game/ui/text.cpp
   
   # game/physics
-  ${CR_SRC_DIR}/game/physics/collider.cpp
   ${CR_SRC_DIR}/game/physics/physics_world.cpp
+  ${CR_SRC_DIR}/game/physics/body.cpp
+  ${CR_SRC_DIR}/game/physics/collider.cpp
   
   # game/scenes
   ${CR_SRC_DIR}/game/scenes/scene_manager.cpp
