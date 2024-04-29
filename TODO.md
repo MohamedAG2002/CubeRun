@@ -1,12 +1,12 @@
 # TODO: 
-- Prefabs
-- Obsticles and a way to render them and move them together in unison 
+- Randomize the obsticles' positions
 - Collision events and response
 - A way for the player to die and resetting the level 
 - Coins 
 - Get audio samples and attach them
 - Score 
 - Save the score in binary form  
+- Lock camera's movement
 - That's it?
 
 # BUGS 

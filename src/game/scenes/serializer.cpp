@@ -32,29 +32,6 @@ void serialize_entities(const EntityManager* entities) {
   node["player"]["tries"]  = entities->player.tries;
   ///////////////////////////////////////////////////////
   
-  // Save platforms
-  ///////////////////////////////////////////////////////
-  node["platforms-count"] = entities->platforms.size();
-
-  for(u32 i = 0; i < entities->platforms.size(); i++) {
-    Platform plat = entities->platforms[i];
-    std::string node_str = "platform-" + std::to_string(i);
-
-    node[node_str]["position"]["x"] = plat.position.x;
-    node[node_str]["position"]["y"] = plat.position.y;
-    node[node_str]["position"]["z"] = plat.position.z;
-
-    node[node_str]["scale"]["x"] = plat.scale.x;
-    node[node_str]["scale"]["y"] = plat.scale.y;
-    node[node_str]["scale"]["z"] = plat.scale.z;
-    
-    node[node_str]["color"]["r"] = plat.color.r;
-    node[node_str]["color"]["g"] = plat.color.g;
-    node[node_str]["color"]["b"] = plat.color.b;
-    node[node_str]["color"]["a"] = plat.color.a;
-  }
-  ///////////////////////////////////////////////////////
-
   std::ofstream file("assets/scenes/game.yaml");
   if(!file.is_open()) {
     printf("[ERROR]: Open file at \'assets/scenes/game.yaml\'\n");
@@ -89,33 +66,6 @@ void deserialize_entities(EntityManager* entities) {
   
   entities->player.is_active = node["player"]["active"].as<bool>();
   entities->player.tries     = node["player"]["tries"].as<u32>();
-  ///////////////////////////////////////////////////////
-  
-  // Load platforms
-  ///////////////////////////////////////////////////////
-  usizei platform_count = node["platforms-count"].as<usizei>();
-
-  for(u32 i = 0; i < platform_count; i++) {
-    std::string node_str = "platform-" + std::to_string(i);
-
-    glm::vec3 position(0.0f);
-    position.x = node[node_str]["position"]["x"].as<f32>();
-    position.y = node[node_str]["position"]["y"].as<f32>();
-    position.z = node[node_str]["position"]["z"].as<f32>();
-   
-    glm::vec3 scale(1.0f);
-    scale.x = node[node_str]["scale"]["x"].as<f32>();
-    scale.y = node[node_str]["scale"]["y"].as<f32>();
-    scale.z = node[node_str]["scale"]["z"].as<f32>();
-
-    glm::vec4 color(0.0f);
-    color.r = node[node_str]["color"]["r"].as<f32>();
-    color.g = node[node_str]["color"]["g"].as<f32>();
-    color.b = node[node_str]["color"]["b"].as<f32>();
-    color.a = node[node_str]["color"]["a"].as<f32>();
-    
-    Platform* plat = &entities_platform_add(entities, position, scale, color);
-  }
   ///////////////////////////////////////////////////////
 }
 /////////////////////////////////////////////////////////////////////////////////

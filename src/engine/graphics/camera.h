@@ -21,6 +21,8 @@ struct Camera {
 
   glm::vec3 position, up, direction, front;
   glm::mat4 view_projection;
+
+  bool can_move;
 };
 /////////////////////////////////////////////////////////////////////////////////
 

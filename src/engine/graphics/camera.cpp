@@ -22,7 +22,7 @@ const f32 CAM_SPEED    = 10.0f;
 Camera camera_create(const glm::vec3& position, const glm::vec3& target) {
   Camera  cam; 
  
-  cam.yaw   = -90.0f;
+  cam.yaw   = 0.0f;
   cam.pitch = 0.0f;
   cam.zoom  = 45.0f;
   cam.type  = CAMERA_FREE;
@@ -40,6 +40,8 @@ Camera camera_create(const glm::vec3& position, const glm::vec3& target) {
  
   cam.view_projection = glm::mat4(1.0f);
 
+  cam.can_move        = true;
+
   return cam;
 }
 
@@ -50,8 +52,14 @@ void camera_update(Camera* camera) {
   camera->view_projection = glm::perspective(glm::radians(camera->zoom), aspect_ratio, 0.1f, 100.0f) * 
                             glm::lookAt(camera->position, camera->position + camera->front, camera->up);
 
-  camera->yaw   = mouse_pos.x;
-  camera->pitch = mouse_pos.y;
+  if(camera->can_move) {
+    camera->yaw   = mouse_pos.x;
+    camera->pitch = mouse_pos.y;
+  }
+  else {
+    camera->yaw   = 0.0f;
+    camera->pitch = 0.0f;
+  }
 
   camera->pitch = glm::clamp(camera->pitch, -CAM_MAX_DEG, CAM_MAX_DEG);
   camera->zoom  = glm::clamp(camera->zoom, 1.0f, CAM_MAX_ZOOM);

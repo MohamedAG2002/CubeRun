@@ -20,14 +20,13 @@ GameScene* game_scene_create() {
   physics_world_create();
 
   game->entities = entities_create();
-  deserialize_entities(game->entities);
 
   game->pause_text = ui_text_create("PAUSED", 0.5f, UI_ANC_CENTER, glm::vec4(1.0f));
   game->is_paused  = false; 
   game->is_active  = true; 
   game->is_editing = false;
   
-  game->camera     = camera_create(glm::vec3(0.0f, 0.0f, -5.0f), glm::vec3(0.0f, 0.0f, -3.0f));
+  game->camera     = camera_create(glm::vec3(0.0f, 3.0f, -5.0f), glm::vec3(0.0f, 3.0f, -3.0f));
 
   return game;
 }
@@ -48,7 +47,8 @@ void game_scene_update(GameScene* game) {
   }
 
   if(input_key_pressed(KEY_F1)) {
-    game->is_editing = !game->is_editing;
+    game->is_editing      = !game->is_editing;
+    game->camera.can_move = !game->camera.can_move;
     input_cursor_show(game->is_editing);
   }
   
