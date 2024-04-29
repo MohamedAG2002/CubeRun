@@ -1,6 +1,13 @@
 # TODO: 
-- Physics -> minimal. Maybe use a library but try to do it on your own accord
-- Particles. Very simple 2D quads that fly everywhere 
+- Prefabs
+- Obsticles and a way to render them and move them together in unison 
+- Collision events and response
+- A way for the player to die and resetting the level 
+- Coins 
+- Get audio samples and attach them
+- Score 
+- Save the score in binary form  
+- That's it?
 
 # BUGS 
 - An optimized 3D renderer (instanced)
