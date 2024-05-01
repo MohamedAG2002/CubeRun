@@ -1,5 +1,6 @@
 #include "physics_world.h"
 #include "engine/core/clock.h"
+#include "engine/core/event.h"
 #include "game/physics/collider.h"
 #include "game/physics/body.h"
 
@@ -42,6 +43,7 @@ static void check_collisions() {
       const ColliderData collision = collider_colliding(&body1->collider, &body2->collider);
       if(collision.is_colliding) {
         world->collisions.push_back(collision);
+        event_dispatch(EVENT_COLLISION, EventDesc{.collision = collision});
       }
     }
   }
@@ -52,11 +54,19 @@ static void resolve_collisions() {
     if(coll.coll1->body->is_dynamic) {
       coll.coll1->body->position -= (-coll.normal * coll.depth); 
       coll.coll1->body->velocity = glm::vec3(0.0f); 
+
+      if(coll.normal.y == 1.0f) {
+        coll.coll1->is_grounded = true;
+      }
     }
     
     if(coll.coll2->body->is_dynamic) {
       coll.coll2->body->position -= (-coll.normal * coll.depth); 
       coll.coll2->body->velocity = glm::vec3(0.0f); 
+
+      if(coll.normal.y == 1.0f) {
+        coll.coll2->is_grounded = true;
+      }
     }
   }
 

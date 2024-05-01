@@ -17,13 +17,6 @@
 // Private functions
 /////////////////////////////////////////////////////////////////////////////////
 static void move_player(Player* player) {
-  if(input_key_down(KEY_S)) {
-    player->body->velocity.x = -PLAYER_SPEED;
-  }
-  else if(input_key_down(KEY_W)) {
-    player->body->velocity.x = PLAYER_SPEED;
-  }
-  
   if(input_key_down(KEY_A)) {
     player->body->velocity.z = -PLAYER_SPEED;
   }
@@ -31,8 +24,9 @@ static void move_player(Player* player) {
     player->body->velocity.z = PLAYER_SPEED;
   }
 
-  if(input_key_pressed(KEY_SPACE)) {
+  if(input_key_pressed(KEY_SPACE) && player->body->collider.is_grounded) {
     player->body->velocity.y = PLAYER_SPEED;
+    player->body->collider.is_grounded = false;
   }
 }
 /////////////////////////////////////////////////////////////////////////////////
@@ -62,10 +56,8 @@ void player_update(Player* player) {
     return;
   }
 
-  if(player->tries == 0) {
-    player->is_active       = false; 
-    player->body->is_active = false; 
-    return;
+  if(player->position.y <= -10.0f) {
+    player->has_fell = true;
   }
 
   move_player(player);

@@ -1,11 +1,6 @@
 # TODO: 
-- Randomize the obsticles' positions
-- Collision events and response
-- A way for the player to die and resetting the level 
-- Coins 
-- Get audio samples and attach them
-- Score 
 - Save the score in binary form  
+- Get audio samples and attach them
 - Lock camera's movement
 - That's it?
 

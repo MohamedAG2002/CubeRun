@@ -3,6 +3,7 @@
 #include "engine/defines.h"
 #include "engine/audio/sound_type.h"
 #include "engine/audio/music_type.h"
+#include "game/physics/collider.h"
 #include "game/scenes/scene_overlay.h"
 
 #include <glm/vec2.hpp>
@@ -28,6 +29,7 @@ enum EventType {
   EVENT_MUSIC_PLAY, 
   EVENT_MUSIC_STOP, 
   EVENT_OVERLAY_CHANGE,
+  EVENT_COLLISION,
 };
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -48,6 +50,9 @@ struct EventDesc {
 
   // Scenes desc 
   OverlayType overlay_type;
+
+  // Collision desc 
+  ColliderData collision;
 };
 /////////////////////////////////////////////////////////////////////////////////
 

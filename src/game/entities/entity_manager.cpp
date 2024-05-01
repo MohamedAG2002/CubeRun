@@ -92,4 +92,19 @@ void entities_render(EntityManager* entities) {
     obsticle_render(&entities->obsticles[i]);
   }
 }
+
+void entities_reset(EntityManager* entities) {
+  entities->player.position       = glm::vec3(10.0f, 5.0f, -5.0f);
+  entities->player.body->position = glm::vec3(10.0f, 5.0f, -5.0f);
+  entities->player.has_fell       = false;
+  
+  entities->spawn_timer     = 0.0f;
+  entities->can_spawn       = false;
+
+  for(u32 i = 0; i < OBSTICLES_MAX; i++) {
+    entities->obsticles[i].position       = glm::vec3(-1000.0f, -10.0f, -1000.0f);
+    entities->obsticles[i].body->position = glm::vec3(-1000.0f, -10.0f, -1000.0f);
+    entities->obsticles[i].is_active      = false;
+  }
+}
 /////////////////////////////////////////////////////////////////////////////////

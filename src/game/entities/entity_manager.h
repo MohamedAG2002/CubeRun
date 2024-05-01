@@ -31,4 +31,5 @@ EntityManager* entities_create();
 void entities_destroy(EntityManager* entities); 
 void entities_update(EntityManager* entities);
 void entities_render(EntityManager* entities);
+void entities_reset(EntityManager* entities);
 /////////////////////////////////////////////////////////////////////////////////

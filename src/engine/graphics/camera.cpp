@@ -40,7 +40,7 @@ Camera camera_create(const glm::vec3& position, const glm::vec3& target) {
  
   cam.view_projection = glm::mat4(1.0f);
 
-  cam.can_move        = true;
+  cam.can_move        = false;
 
   return cam;
 }

@@ -10,7 +10,7 @@
 // Player
 /////////////////////////////////////////////////////////////////////////////////
 struct Player {
-  bool is_active;
+  bool is_active, has_fell;
   u32 tries;
 
   glm::vec3 position, scale, velocity;

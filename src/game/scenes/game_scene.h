@@ -8,10 +8,11 @@
 /////////////////////////////////////////////////////////////////////////////////
 struct GameScene {
   EntityManager* entities = nullptr; 
-  UIText pause_text; 
+  UIText pause_text, score_text, tries_text; 
   Camera camera;
 
   bool is_paused, is_active, is_editing; 
+  u32 score, high_score;
 };
 /////////////////////////////////////////////////////////////////////////////////
 

@@ -16,7 +16,7 @@ Obsticle obsticle_create(const glm::vec3& pos, const glm::vec3& scale, const glm
   o.color     = color;
   o.is_active = false;
   o.mesh      = mesh_create();
-  o.body      = physics_world_create_body(pos, scale, false, "Obsticle");
+  o.body      = physics_world_create_body(pos, scale, false, color == glm::vec4(1.0f) ? "Platform" : "Obsticle");
 
   return o;
 }
