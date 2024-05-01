@@ -2,15 +2,14 @@
 #include "engine/core/event.h"
 #include "engine/graphics/camera.h"
 #include "engine/core/input.h"
+#include "engine/file/file.h"
 #include "game/ui/text.h"
 #include "game/entities/entity_manager.h"
 #include "game/physics/physics_world.h"
-#include "game/scenes/serializer.h"
 #include "editor/editor.h"
 
 #include <glm/glm.hpp>
 
-#include <cstdio>
 #include <string>
 
 // Globals Yuckk!!!!
@@ -29,7 +28,13 @@ static void rewind_game_scene(GameScene* game) {
 
   s_can_reset = false;
 }
+
 static void reset_game_scene(GameScene* game) {
+  if(game->score > game->high_score) {
+    game->high_score = game->score;
+    file_binary_save_u32(game->high_score, "assets/data/scr.dat");
+  }
+  
   game->is_paused = false;
   game->score     = 0;
   game->is_paused = false;
@@ -73,7 +78,7 @@ GameScene* game_scene_create() {
   game->camera     = camera_create(glm::vec3(0.0f, 3.0f, -5.0f), glm::vec3(0.0f, 3.0f, -3.0f));
 
   game->score      = 0;
-  game->high_score = 0;
+  game->high_score = file_binary_load_u32("assets/data/scr.dat");
 
   event_listen(EVENT_COLLISION, coll_func);
 
@@ -105,21 +110,11 @@ void game_scene_update(GameScene* game) {
   }
 
   game->score++;
-  game->high_score = game->score > game->high_score ? game->score : game->high_score;
 
   if(input_key_pressed(KEY_F1)) {
     game->is_editing      = !game->is_editing;
     game->camera.can_move = !game->camera.can_move;
     input_cursor_show(game->is_editing);
-  }
-  
-  if(game->is_editing) {
-    if(input_key_down(KEY_LEFT_CONTROL) && input_key_pressed(KEY_S)) {
-      serialize_entities(game->entities);
-      printf("ENTITIES SAVED\n");
-    }
-
-    return;
   }
   
   camera_update(&game->camera);

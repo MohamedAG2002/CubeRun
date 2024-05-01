@@ -2,8 +2,15 @@
 #include "game/scenes/scene_overlay.h"
 #include "game/ui/text.h"
 #include "engine/core/input.h"
+#include "engine/file/file.h"
 
+#include <string>
 #include <vector>
+
+// GLOBALS
+/////////////////////////////////////////////////////////////////////////////////
+static u32 s_high_score = file_binary_load_u32("assets/data/scr.dat");
+/////////////////////////////////////////////////////////////////////////////////
 
 // Public functions
 /////////////////////////////////////////////////////////////////////////////////
@@ -33,6 +40,9 @@ void menu_overlay_update(SceneOverlay* overlay) {
 }
 
 void menu_overlay_render(SceneOverlay* overlay) {
+  s_high_score = file_binary_load_u32("assets/data/scr.dat");
+  ui_text_change(overlay->texts[2], "PB: " + std::to_string(s_high_score));
+
   for(auto& text : overlay->texts) {
     ui_text_render(text);
   }

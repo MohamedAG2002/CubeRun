@@ -2,10 +2,12 @@
 #include "engine/core/window.h"
 #include "game/entities/entity_manager.h"
 
+#ifdef EDITOR_ACTIVE
 #include <ImGui/imgui.h>
 #include <ImGui/backends/imgui_impl_glfw.h>
 #include <ImGui/backends/imgui_impl_opengl3.h>
 #include <ImGui/backends/imgui_impl_opengl3_loader.h>
+#endif
 
 #include <cstdio>
 
