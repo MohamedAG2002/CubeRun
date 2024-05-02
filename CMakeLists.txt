@@ -27,9 +27,6 @@ set(CR_SOURCES
   
   # engine/core
   ${CR_SRC_DIR}/engine/file/file.cpp
-
-  # engine/editor
-  ${CR_SRC_DIR}/editor/editor.cpp
   
   # engine/graphics
   ${CR_SRC_DIR}/engine/graphics/renderer.cpp
@@ -73,15 +70,6 @@ set(CR_SOURCES
 ############################################################
 set(LIBS_SOURCE 
   ${CR_LIBS_DIR}/glad/gl.c
-
-  ${CR_LIBS_DIR}/ImGui/imgui.cpp
-  ${CR_LIBS_DIR}/ImGui/imgui_demo.cpp
-  ${CR_LIBS_DIR}/ImGui/imgui_draw.cpp
-  ${CR_LIBS_DIR}/ImGui/imgui_tables.cpp
-  ${CR_LIBS_DIR}/ImGui/imgui_widgets.cpp
-  
-  ${CR_LIBS_DIR}/ImGui/backends/imgui_impl_opengl3.cpp
-  ${CR_LIBS_DIR}/ImGui/backends/imgui_impl_glfw.cpp
   
   ${CR_LIBS_DIR}/miniaudio/miniaudio.cpp
   ${CR_LIBS_DIR}/stb_image/stb_image.cpp
@@ -92,7 +80,7 @@ set(LIBS_SOURCE
 ############################################################
 add_executable(${PROJECT_NAME} ${CR_SOURCES} ${LIBS_SOURCE})
 
-target_compile_definitions(${PROJECT_NAME} PUBLIC GLFW_INCLUDE_NONE EDITOR_ACTIVE)
+target_compile_definitions(${PROJECT_NAME} PUBLIC GLFW_INCLUDE_NONE)
 target_compile_options(${PROJECT_NAME} PRIVATE -lm -O1)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
 

@@ -11,7 +11,7 @@ struct GameScene {
   UIText pause_text, score_text, tries_text; 
   Camera camera;
 
-  bool is_paused, is_active, is_editing; 
+  bool is_paused, is_active; 
   u32 score, high_score;
 };
 /////////////////////////////////////////////////////////////////////////////////

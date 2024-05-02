@@ -1,5 +1,4 @@
 #include "scene_manager.h"
-#include "editor/editor.h"
 #include "engine/graphics/renderer.h"
 #include "engine/core/event.h"
 #include "engine/defines.h"
@@ -50,8 +49,6 @@ void scenes_create() {
   scenes->current_overlay = &scenes->overlays[OVERLAY_MENU];
 
   event_listen(EVENT_OVERLAY_CHANGE, overlay_change_callback);
-
-  editor_init();
 }
 
 void scenes_destroy() {
@@ -59,7 +56,6 @@ void scenes_destroy() {
     scenes->overlays[i].destroy(&scenes->overlays[i]);
   }
 
-  editor_shutdown();
   game_scene_destroy(scenes->game_scene);
 
   delete scenes;
@@ -78,7 +74,6 @@ void scenes_update() {
 void scenes_render() {
   renderer_clear(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
   renderer_begin(scenes->game_scene->camera);
-  editor_begin();
 
   if(scenes->current_overlay->is_active) {
     scenes->current_overlay->render(scenes->current_overlay);
@@ -87,7 +82,6 @@ void scenes_render() {
     game_scene_render(scenes->game_scene);
   }
   
-  editor_end();
   renderer_end();
   renderer_present();
 }

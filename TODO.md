@@ -1,6 +1,5 @@
 # TODO: 
-- Get audio samples and attach them
-- Lock camera's movement
+- Get audio samples and attach them -> when the player is, when the player falls, and when the player dies. Also get some ambient noise in the background
 - That's it? Release?
 
 # BUGS 
