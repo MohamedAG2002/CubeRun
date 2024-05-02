@@ -2,6 +2,7 @@
 #include "game/scenes/scene_overlay.h"
 #include "game/ui/text.h"
 #include "engine/core/input.h"
+#include "engine/core/event.h"
 #include "engine/file/file.h"
 
 #include <string>
@@ -34,6 +35,7 @@ void menu_overlay_destroy(SceneOverlay* overlay) {
 
 void menu_overlay_update(SceneOverlay* overlay) {
   if(input_key_pressed(KEY_SPACE)) {
+    event_dispatch(EVENT_MUSIC_PLAY, EventDesc{.music_type = MUSIC_BACKGROUND});
     overlay->is_active = false;
     return;
   }

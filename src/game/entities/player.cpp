@@ -1,5 +1,6 @@
 #include "player.h"
 #include "engine/defines.h"
+#include "engine/core/event.h"
 #include "engine/graphics/mesh.h"
 #include "engine/graphics/renderer.h"
 #include "engine/core/input.h"
@@ -57,6 +58,7 @@ void player_update(Player* player) {
   }
 
   if(player->position.y <= -10.0f) {
+    event_dispatch(EVENT_SOUND_PLAY, EventDesc{.sound_type = SOUND_FALL});
     player->has_fell = true;
   }
 

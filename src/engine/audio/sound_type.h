@@ -2,6 +2,8 @@
 
 enum SoundType {
   SOUND_HIT = 0, 
+  SOUND_FALL,
+  SOUND_DEATH,
 
-  SOUNDS_MAX = 1,
+  SOUNDS_MAX = SOUND_DEATH + 1,
 };

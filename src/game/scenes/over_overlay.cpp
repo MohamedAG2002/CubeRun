@@ -27,6 +27,7 @@ void over_overlay_destroy(SceneOverlay* overlay) {
 void over_overlay_update(SceneOverlay* overlay) {
   if(input_key_pressed(KEY_SPACE)) {
     overlay->is_active = false;
+    event_dispatch(EVENT_MUSIC_PLAY, EventDesc{.music_type = MUSIC_BACKGROUND});
     return;
   }
   else if(input_key_pressed(KEY_M)) {

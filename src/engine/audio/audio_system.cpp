@@ -75,10 +75,12 @@ bool audio_system_init() {
   event_listen(EVENT_MUSIC_STOP, audio_event_callback);
   
   // Loading sounds
-  load_sound("assets/audio/fire-s7.wav", SOUND_HIT);
+  load_sound("assets/audio/player_hit.wav", SOUND_HIT);
+  load_sound("assets/audio/player_hit.wav", SOUND_FALL);
+  load_sound("assets/audio/player_death.wav", SOUND_DEATH);
 
-  // Loading music
-  load_music("assets/audio/nocturne-m1.mp3", MUSIC_BACKGROUND);
+  // Loading music 
+  load_music("assets/audio/song21.mp3", MUSIC_BACKGROUND);
 
   return true;
 }

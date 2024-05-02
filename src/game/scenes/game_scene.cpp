@@ -40,6 +40,8 @@ static void reset_game_scene(GameScene* game) {
 
   entities_reset(game->entities);
   game->entities->player.tries = 3;
+  
+  event_dispatch(EVENT_MUSIC_PLAY, EventDesc{.music_type = MUSIC_BACKGROUND});
 }
 
 static bool coll_func(const EventType type, const EventDesc& desc) {
@@ -51,6 +53,7 @@ static bool coll_func(const EventType type, const EventDesc& desc) {
   bool is_obsticle = desc.collision.coll1->id == "Obsticle" || desc.collision.coll2->id == "Obsticle";
   if(is_player && is_obsticle) {
     s_can_reset = true;
+    event_dispatch(EVENT_SOUND_PLAY, EventDesc{.sound_type = SOUND_HIT});
   }
 
   return true;
@@ -96,7 +99,10 @@ void game_scene_update(GameScene* game) {
 
   if(game->entities->player.tries == 0) {
     reset_game_scene(game);
+    
     event_dispatch(EVENT_OVERLAY_CHANGE, EventDesc{.overlay_type = OVERLAY_OVER});
+    event_dispatch(EVENT_SOUND_PLAY, EventDesc{.sound_type = SOUND_DEATH});
+    event_dispatch(EVENT_MUSIC_STOP, EventDesc{.music_type = MUSIC_BACKGROUND});
   }
 
   if(input_key_pressed(KEY_P)) {
