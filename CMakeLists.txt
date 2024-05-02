@@ -11,7 +11,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # Sub-dirs
 ############################################################
 add_subdirectory(libs/GLFW)
-add_subdirectory(libs/glm)
 add_subdirectory(libs/freetype)
 ############################################################
 
@@ -81,7 +80,7 @@ set(LIBS_SOURCE
 add_executable(${PROJECT_NAME} ${CR_SOURCES} ${LIBS_SOURCE})
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC GLFW_INCLUDE_NONE)
-target_compile_options(${PROJECT_NAME} PRIVATE -lm -O1)
+target_compile_options(${PROJECT_NAME} PRIVATE -lm -O1 -ldl)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${CR_SRC_DIR}/)
@@ -89,5 +88,5 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${CR_LIBS_DIR}/)
 
 file(COPY assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
-target_link_libraries(${PROJECT_NAME} PUBLIC glfw glm freetype)
+target_link_libraries(${PROJECT_NAME} PUBLIC glfw freetype)
 ############################################################
